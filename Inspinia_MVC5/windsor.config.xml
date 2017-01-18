@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+<components>
+<component id="CategoryRepository"
+             service="DAL.ICategoryRepository,  DAL"
+             type="DAL.CategoryRepository,  DAL"/>
+
+<component id="AdvRepository"
+             service="DAL.IAdvRepository,  DAL"
+             type="DAL.AdvRepository,  DAL"/>
+  
+<component id="ImageRepository"
+             service="DAL.IImageRepository,  DAL"
+             type="DAL.ImageRepository,  DAL"/>
+    
+<component id="IReviewRepository"
+             service="DAL.IReviewRepository,  DAL"
+             type="DAL.ReviewRepository,  DAL"/>
+  
+<component id="BlogRepository"
+             service="DAL.IBlogRepository,  DAL"
+             type="DAL.BlogRepository,  DAL"/>
+</components>
+
+
+</configuration>

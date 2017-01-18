@@ -1,0 +1,108 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "Размещение баннера";
+    ViewBag.Message = "Размещение баннера";
+    //Layout = "_Layout";
+}
+
+
+<div class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 login-box">
+                <div class="panel panel-default">
+                    <div class="panel-intro text-center">
+                        <h2>Размещение баннера</h2>
+                        <br />
+                        <label class="form-label field-description">Тип</label>
+                        <ol class="edit-banner ng-scope" fl-analytics-section="add-banner" fl-analytics-subsection="submit-banner">
+                            <li class="form-group zone-form-group">
+
+                                <!-- ngRepeat: zone in zones --><label ng-repeat="zone in zones" class="form-label-radio banner-zone-choice ng-binding ng-scope">
+                                    <input ng-disabled="rework_page" type="radio" name="ad-space" value="[object Object]" ng-model="banner.zone" btn-radio="zone" ng-value="zone" fl-analytics="ad-space" fl-analytics-label="Top" fl-analytics-action="select" class="ng-valid ng-dirty ng-touched ng-valid-parse active">Боковой баннер 240 × 400
+                                </label><!-- end ngRepeat: zone in zones -->
+                                <label ng-repeat="zone in zones" class="form-label-radio banner-zone-choice ng-binding ng-scope">
+                                    <input ng-disabled="rework_page" type="radio" name="ad-space" value="[object Object]" ng-model="banner.zone" btn-radio="zone" ng-value="zone" fl-analytics="ad-space" fl-analytics-label="Bottom" fl-analytics-action="select" class="ng-valid ng-dirty ng-touched"> Верхний баннер 750 × 100
+                                </label><!-- end ngRepeat: zone in zones -->
+
+                                <label ng-repeat="zone in zones" class="form-label-radio banner-zone-choice ng-binding ng-scope">
+                                    <input ng-disabled="rework_page" type="radio" name="ad-space" value="[object Object]" ng-model="banner.zone" btn-radio="zone" ng-value="zone" fl-analytics="ad-space" fl-analytics-label="Bottom" fl-analytics-action="select" class="ng-valid ng-dirty ng-touched"> Нижний баннер 750 × 100
+                                </label><!-- end ngRepeat: zone in zones -->
+                                <!-- ngIf: error.offer -->
+                                <!-- ngIf: banner.zone.preview -->
+
+                            </li>
+                            <li><button class="btn btn-primary btn-fln-banner" ng-click="openPreview($event)">Превью</button></li>
+
+                            <li class="form-group">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="textarea"> Рекламируемый урл </label>
+                                    <div class="col-md-8">
+                                        <input id="Url" name="Url" class="form-control" type="text" class="file" placeholder="http://site.com" data-preview-file-type="text">
+                                    </div>
+                                </div>
+                                <span ng-if="bannerform.destination_url.$error.required" class="ng-scope">
+                                    Введите URL начиная с http://
+                                </span><!-- end ngIf: bannerform.destination_url.$error.required -->
+                            </li>
+                            <li>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="textarea"> Изображение </label>
+                                    <div class="col-md-8">
+
+                                        <input id="input-upload-img3" name="input-upload-img3" type="file" class="file" data-preview-file-type="text">
+                                    </div>
+                                </div>
+                                <!-- ngRepeat: file in uploader.queue -->
+                                <!-- ngIf: bannerform.$submitted && !banner.file -->
+                                <!-- ngIf: file_size_invalid -->
+                                <!-- ngIf: error.file_id -->
+                            </li>
+
+                            <li class="form-group">
+                                <br>
+                                <br>
+                                <!-- duration input -->
+                                <label class="form-label field-description ng-binding">Срок размещения</label><br>
+                                <!-- ngRepeat: zone in zones --><label ng-repeat="zone in zones" class="form-label-radio banner-zone-choice ng-binding ng-scope">
+                                    <input ng-disabled="rework_page" type="radio" name="ad-space" value="[object Object]" ng-model="banner.zone" btn-radio="zone" ng-value="zone" fl-analytics="ad-space" fl-analytics-label="Top" fl-analytics-action="select" class="ng-valid ng-dirty ng-touched ng-valid-parse active">1 день
+                                </label><!-- end ngRepeat: zone in zones -->
+                                <!-- ngRepeat: zone in zones --><label ng-repeat="zone in zones" class="form-label-radio banner-zone-choice ng-binding ng-scope">
+                                    <input ng-disabled="rework_page" type="radio" name="ad-space" value="[object Object]" ng-model="banner.zone" btn-radio="zone" ng-value="zone" fl-analytics="ad-space" fl-analytics-label="Top" fl-analytics-action="select" class="ng-valid ng-dirty ng-touched ng-valid-parse active">7 дней
+                                </label><!-- end ngRepeat: zone in zones -->
+                                <label ng-repeat="zone in zones" class="form-label-radio banner-zone-choice ng-binding ng-scope">
+                                    <input ng-disabled="rework_page" type="radio" name="ad-space" value="[object Object]" ng-model="banner.zone" btn-radio="zone" ng-value="zone" fl-analytics="ad-space" fl-analytics-label="Bottom" fl-analytics-action="select" class="ng-valid ng-dirty ng-touched"> 14 дней
+                                </label><!-- end ngRepeat: zone in zones -->
+
+                                <label ng-repeat="zone in zones" class="form-label-radio banner-zone-choice ng-binding ng-scope">
+                                    <input ng-disabled="rework_page" type="radio" name="ad-space" value="[object Object]" ng-model="banner.zone" btn-radio="zone" ng-value="zone" fl-analytics="ad-space" fl-analytics-label="Bottom" fl-analytics-action="select" class="ng-valid ng-dirty ng-touched">1 месяц
+                                </label><!-- end ngRepeat: zone in zones -->
+                                <!-- ngIf: error.offer -->
+                                <!-- ngIf: banner.zone.preview -->
+                                <!-- ngIf: error.offer -->
+                            </li>
+                            <li class="form-group">
+                                <span class="form-banner-price">Цена: <strong id="bannerPrice" class="ng-binding">1000 Руб.</strong></span>
+                            </li>
+                            <li>
+
+                                <a target="_blank" onclick=" $('#publish').attr('style', 'visibility:visible'); " class="fa fa-paypal btn btn-primary small" href="https://paypal.me/DZyryanov/99">Оплатить</a>
+
+
+                            </li>
+
+                            <li>
+                                <br/>
+                                <input style="visibility: hidden;" id="publish" class="btn btn-primary btn-lg" type="submit" value="Опубликовать" />
+                            </li>
+                        </ol>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

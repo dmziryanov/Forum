@@ -1,0 +1,74 @@
+﻿@model IEnumerable<DAL.Review>
+
+@{
+    ViewBag.Title = "Все отзывы";
+}
+
+<div class="intro">
+    <div class="dtable hw100">
+        <div class="dtable-cell hw100">
+            <div class="container text-center">
+                <h1 class="intro-title animated fadeInDown">Отзывы для всех</h1>
+                <p class="sub animateme fittext3 animated fadeIn">Узнайте мнение других, и поделитесь своим</p>
+                <div class="btn btn-primary small">@Html.ActionLink("Написать отзыв", "PostReview", new { @class = "btn btn-primary btn-search btn-block" })</div>
+                <div class="row search-row animated fadeInUp">
+                    <div class="col-lg-4 col-sm-4 search-col relative locationicon">
+                        <i class="icon-location-2 icon-append"></i>
+                        <input type="text" name="country" id="autocomplete-ajax" class="form-control locinput input-rel searchtag-input has-icon" placeholder="Город..." value="">
+                    </div>
+                    <div class="col-lg-4 col-sm-4 search-col relative">
+                        <i class="icon-docs icon-append"></i>
+                        <input type="text" name="ads" id="ads" class="form-control has-icon" placeholder="Название или описание компании, сайта" value="">
+                    </div>
+                    <div class="col-lg-4 col-sm-4 search-col">
+                        <button onclick="Search();" class="btn btn-primary btn-search btn-block"><i class="icon-search"></i><strong>Найти</strong></button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="wrapper">
+    <div class="main-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 page-content">
+                    <div class="inner-box category-content">
+                        <h1>
+                            Последние отзывы
+                        </h1>
+
+                        @foreach (var item in Model)
+                        {
+                            <div class="row">
+
+                                <div class="col-md-4 col-sm-4">
+                                    <div class="panel sidebar-panel">
+                                        <div class="panel-heading">О ком: @Html.DisplayFor(modelItem => item.AboutName) - @Html.DisplayFor(modelItem => item.Created)</div>
+                                        <div class="panel-content">
+                                            <div class="panel-body text-left">
+                                                <ul class="list-check">
+                                                    <li><i>@Html.DisplayFor(modelItem => item.Text)</i></li>
+                                                </ul>
+                                                <p>
+
+                                                    Оставил <b>@Html.DisplayFor(modelItem => item.PersonName)</b>
+                                                    <a class="pull-right" href="mailto:@item.PersonMail">Связаться с ним...<i class="fa fa-angle-double-right"></i> </a>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

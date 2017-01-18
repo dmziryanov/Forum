@@ -1,0 +1,414 @@
+﻿@using DAL
+@model DAL.BlogPostModel
+<script src="../../assets/js/owl.carousel.min.js"></script>
+<script src="../../assets/js/adsdetails.js"></script>
+<link href="../../assets/plugins/bxslider/jquery.bxslider.css" rel="stylesheet" />
+
+
+<script>
+    $(document).ready(function () {
+        $('.bxslider').bxSlider({
+            pagerCustom: '#bx-pager'
+        });
+
+
+    });
+    Share = {
+        vkontakte: function(purl, ptitle, pimg, text) {
+            url = 'http://vkontakte.ru/share.php?';
+            url += 'url=' + encodeURIComponent(purl);
+            url += '&title=' + encodeURIComponent(ptitle);
+            url += '&description=' + encodeURIComponent(text);
+            url += '&image=' + encodeURIComponent(pimg);
+            url += '&noparse=true';
+            Share.popup(url);
+        },
+        odnoklassniki: function(purl, text) {
+            url = 'http://www.odnoklassniki.ru/dk?st.cmd=addShare&st.s=1';
+            url += '&st.comments=' + encodeURIComponent(text);
+            url += '&st._surl=' + encodeURIComponent(purl);
+            Share.popup(url);
+        },
+        facebook: function(purl, ptitle, pimg, text) {
+            url = 'http://www.facebook.com/sharer.php?s=100';
+            url += '&p[title]=' + encodeURIComponent(ptitle);
+            url += '&p[summary]=' + encodeURIComponent(text);
+            url += '&p[url]=' + encodeURIComponent(purl);
+            url += '&p[images][0]=' + encodeURIComponent(pimg);
+            Share.popup(url);
+        },
+        twitter: function(purl, ptitle) {
+            url = 'http://twitter.com/share?';
+            url += 'text=' + encodeURIComponent(ptitle);
+            url += '&url=' + encodeURIComponent(purl);
+            url += '&counturl=' + encodeURIComponent(purl);
+            Share.popup(url);
+        },
+        mailru: function(purl, ptitle, pimg, text) {
+            url = 'http://connect.mail.ru/share?';
+            url += 'url=' + encodeURIComponent(purl);
+            url += '&title=' + encodeURIComponent(ptitle);
+            url += '&description=' + encodeURIComponent(text);
+            url += '&imageurl=' + encodeURIComponent(pimg);
+            Share.popup(url)
+        },
+
+        popup: function(url, soc) {
+            window.open(url, '', 'toolbar=0,status=0,width=626,height=436');
+           
+        }
+    };
+
+   
+</script>
+
+<div class="intro-inner">
+    <div class="about-intro" style="background: url(/Photo/Index/@Model.Blog.ImageId) no-repeat center; background-size: cover;">
+        <div class="dtable hw100">
+            <div class="dtable-cell hw100">
+                <div class="container text-center animated fadeInDown">
+
+                    <h1 class="intro-title"><a href="/Forum/Topic/@Model.Blog.Id"><i class="fa mail-attachment"></i><strong>@Model.Blog.Name</strong></a></h1>
+
+                    <h2>@Model.Blog.Description</h2>
+                    <div class="row search-row animated fadeInUp">
+                        @if (!Request.IsAuthenticated)
+                        {
+                            @*<div class="col-lg-4 col-sm-offset-2 col-sm-4 search-col relative ">
+                                <input type="text" value="" placeholder="Почта..." class="form-control locinput input-rel searchtag-input ">
+                            </div>*@
+
+
+                            <div class="col-lg-4 col-sm-4 search-col">
+
+                            </div>
+                        }
+                        else
+                        {
+
+                        }
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <!--/.about-intro -->
+</div>
+
+
+<!-- /.intro-inner -->
+<div class="main-container inner-page">
+    
+     
+    
+
+<div class="container">
+<div class="section-content">
+<div class="row ">
+<div class="col-sm-8 blogLeft">
+<div class="blog-post-wrapper">
+
+<article class="blog-post-item">
+<div class="card hoverable">
+
+
+
+<div class="ads-image">
+    <ul class="bxslider">
+        @foreach (var item in Model.Post.ImgIds)
+        {
+            <li><img src="/Photo/Index/@item" alt="img"/></li>
+        }
+    </ul>
+    <div id="bx-pager">
+        @for (var i = 0; i < Model.Post.ImgIds.Count(); i++)
+        {
+            <a class="thumb-item-link" data-slide-index="@i" href=""><img src="/Photo/Index/@Model.Post.ImgIds[i]" alt="img"/></a>
+        }
+    </div>
+</div>
+<!--blog image-->
+@*  <div class="blog-post-img">
+
+                                        <a href="/Blog/BlogPost/@Model.Post.Id">
+                                            <figure>
+                                                <img class="img-responsive" alt="blog-post image" src="/Photo/Index/@Model.Post.MainPhotoId">
+                                            </figure>
+                                        </a>
+                                    </div>*@
+
+<!--blog content-->
+
+<div class="blog-post-content-desc">
+    <span class="info-row blog-post-meta">
+                                            <span class="date"><i class=" icon-clock"> </i>@Model.Post.LastEditDate</span>  -
+                                            <span class="author"> <i class="fa fa-user"></i>@Html.ActionLink(Model.Post.UserName ?? "Пользователь", "UserBlog", "Blog", new {id = @Model.Post.UserId})</span>  -
+                                            <span class="item-location"><i class="fa fa-comments"></i>Комментарии:<a href="#bcomments"> @Model.BlogCommentModels.Count</a> </span>
+                                        </span>
+    <div class="blog-post-content">
+        <h2><a href="/Blog/BlogPost/@Model.Post.Id"></a>@Model.Post.Topic</h2>
+        <div class="blog-article-text">
+            <p>@Html.Raw(Model.Post.Body)</p>
+            <div class="clearfix">
+                <div class="col-md-12  blog-post-bottom">
+                    <ul class="share-this-post">
+                        <li>
+                            <a onclick="Share.vkontakte('http://adv.spare-auto.com/Blog/BlogPost/@Model.Post.Id', '@Model.Post.Topic', 'http://adv.spare-auto.com/Photo/Index/@Model.Post.MainPhotoId', '') "><i class="fa fa-vk fa-lg "></i> </a>
+                        </li>
+                        <li>
+                            <a onclick="Share.facebook('http://adv.spare-auto.com/Blog/BlogPost/@Model.Post.Id', '@Model.Post.Topic', 'http://adv.spare-auto.com/Photo/Index/@Model.Post.MainPhotoId', '') "><i class="fa fa-facebook fa-lg "></i></a>
+                        </li>
+                        <li>
+                            <a onclick="Share.mailru('http://adv.spare-auto.com/Blog/BlogPost/@Model.Post.Id', '@Model.Post.Topic', 'http://adv.spare-auto.com/Photo/Index/@Model.Post.MainPhotoId', '') ">Мой мир</a>
+                        </li>
+                        <li>
+                            <a onclick="Share.odnoklassniki('http://adv.spare-auto.com/Blog/BlogPost/@Model.Post.Id', '@Model.Post.Topic', 'http://adv.spare-auto.com/Photo/Index/@Model.Post.MainPhotoId', '') "><i class="fa fa-odnoklassniki fa-lg"></i></a>
+                        </li>
+                        <li><a onclick="Share.twitter('http://adv.spare-auto.com/Blog/BlogPost/@Model.Post.Id', '@Model.Post.Topic', 'http://adv.spare-auto.com/Photo/Index/@Model.Post.MainPhotoId', '') "><i class="fa fa-twitter fa-lg "></i></a></li>
+                    </ul>
+                    <div class="attachment">
+                        @for (var i = 0; i < Model.Post.FileIds.Count(); i++)
+                        {
+                            <div class="file-box">
+                                <div class="file">
+                                    <a href="/Photo/File/@Model.Post.FileIds[i]">
+                                        <span class="corner"></span>
+
+                                        <div class="icon">
+                                            <i class="fa fa-file"></i>
+                                        </div>
+                                        <div class="file-name">
+                                            @Model.Post.FileNames[i]
+                                            <br/>
+                                            <small>@Model.Post.LastEditDate.ToShortDateString()</small>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="blog-post-footer">
+
+
+
+            <div style="clear: both"></div>
+
+
+            <div class="inner ">
+
+
+
+
+
+
+
+                <div class="blogs-comments-area">
+                    <h3 name="bcomments" class="list-title"> <a href="" class="post-comments">@Model.BlogCommentModels.Count Комментариев</a>
+                    </h3>
+
+                    <div class="blogs-comment-respond" id="respond">
+                        <ul class="blogs-comment-list">
+                            @foreach (var item in @Model.BlogCommentModels.Where(x => x.Comment.ParentId == 0))
+                            {
+                                <li>
+                                    <div class="blogs-comment-wrapper">
+                                        <div class="blogs-comment-avatar">
+                                            <figure>
+                                                <img alt="avatar" @if (item.UserAvatarId == 0)
+                                                                  {
+                                                                      <text> src="/images/user.jpg" </text>
+                                                                  }
+                                                                  else
+                                                                  {
+                                                                      <text> src="/Photo/Index/@item.UserAvatarId" </text>
+                                                                  }/>
+
+                                            </figure>
+                                        </div>
+                                        <div class="blogs-comment-details">
+                                            <div class="blogs-comment-name">
+                                                <a href="#">@item.UserName</a>
+                                                <span class="blogs-comment-date">@item.Comment.CreatedDate</span>
+                                            </div>
+                                            <div class="blogs-comment-description">
+                                                <p>
+                                                    @item.Comment.PostComment
+                                                </p>
+                                            </div>
+                                            <div class="blogs-comment-reply">
+                                                <a href="#">Ответить</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <ul>
+                                        @foreach (var subitem in @Model.BlogCommentModels.Where(x => x.Comment.ParentId == item.Comment.Id))
+                                        {
+                                            <li>
+                                                <div class="blogs-comment-wrapper">
+                                                    <div class="blogs-comment-avatar">
+                                                        <figure>
+                                                            <img alt="avatar" @if (subitem.UserAvatarId == 0)
+                                                                              {
+                                                                                  <text> src="/images/user.jpg" </text>
+                                                                              }
+                                                                              else
+                                                                              {
+                                                                                  <text> src="/Photo/Index/@subitem.UserAvatarId"</text>
+                                                                              }/>
+                                                        </figure>
+                                                    </div>
+                                                    <div class="blogs-comment-details">
+                                                        <div class="blogs-comment-name">
+                                                            <a href="#">@subitem.UserName</a>
+                                                            <span class="blogs-comment-date">@subitem.Comment.CreatedDate</span>
+                                                        </div>
+                                                        <div class="blogs-comment-description">
+                                                            <p>
+                                                                @subitem.Comment.Text
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                </li>
+                            }
+                        </ul> <!--Comment list End-->
+
+
+
+
+
+
+                        <h3 class="blogs-comment-reply-title list-title">Оставить комментарий</h3>
+
+                        @using (Html.BeginForm("PostComment", "Forum", new {@PostId = @Model.Post.Id}, FormMethod.Post, new {@class = "blogs-comment-form"}))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary()
+
+                            if (Request.IsAuthenticated)
+                            {
+                                <div class="form-group">
+                                    <textarea class="form-control" placeholder="Text" id="PostComment" name="PostComment"></textarea>
+                                </div>
+
+                                <button type="submit" class="btn-success btn btn-lg"> Отправить </button>
+                            }
+
+                            else
+                            {
+                                <text>
+                                    @Html.ActionLink("Войдите", "LogOn", "Account") или @Html.ActionLink("Зарегистрируйтесь", "Register", "Account"), чтобы оставлять комментарии.
+                                </text>
+                            }
+                        }
+
+
+
+                    </div><!-- #respond -->
+
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+</div>
+</article>
+
+
+
+
+</div> <!--/.blog-post-wrapper-->
+</div><!--blogLeft-->
+
+
+
+<div class="col-sm-4 blogRight page-sidebar card hoverable">
+    <aside>
+        <div class="inner-box">
+            <div class="categories-list  list-filter">
+                <h5 class="list-title uppercase"><strong><a href="#">Категории</a></strong></h5>
+                <ul class=" list-unstyled list-border ">
+                    @foreach (var item in Model._categories)
+                    {
+                        <li><a href=""><span class="title">@item.Name</span><span class="count"></span></a> </li>
+                    }
+                </ul>
+            </div>
+            <!--/.categories-list-->
+            <div class="categories-list  list-filter">
+                <h5 class="list-title uppercase">
+                    <strong>
+                        <a href="#">
+                            Недавние популярные публикации
+                        </a>
+                    </strong>
+                </h5>
+
+
+
+                <div class="blog-popular-content">
+                    <div class="item-list">
+
+                        @foreach (var item in Model.Recent)
+                        {
+                            <div class="item-list">
+                                <div class="col-sm-4 col-xs-4 no-padding photobox">
+                                    <div class="add-image">
+                                        <a href="/Forum/BlogPost/@item.Id"><img class="no-margin" src="/Photo/Index/@item.MainPhotoId" alt="img"></a>
+                                    </div>
+                                </div>
+                                <!--/.photobox-->
+                                <div class="col-sm-8 col-xs-8 add-desc-box">
+                                    <div class="add-details">
+                                        <h5 class="add-title"><a href="/Forum/BlogPost/@item.Id">@item.Topic</a></h5>
+                                        <span class="info-row"><span class="date"><i class=" icon-clock"> </i> @item.LastEditDate </span> </span>
+                                    </div>
+                                </div>
+                                <!--/.add-desc-box-->
+                            </div>
+                        }
+
+                    </div>
+                </div>
+                <div style="clear: both"></div>
+
+                <!--/.categories-list-->
+            </div>
+
+        </div>
+    </aside>
+</div>
+
+</div>
+<!--page-sidebar-->
+</div>
+</div>
+
+</div>
+
+<!-- /.main-container -->
+<div class="parallaxbox about-parallax-bottom">
+    <div class="container">
+
+    </div>
+</div>

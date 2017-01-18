@@ -1,0 +1,19 @@
+﻿@using RmsAuto.TechDoc
+@model IEnumerable<RmsAuto.TechDoc.Entities.TecdocBase.CarType>
+@{
+    Layout = null;
+}
+
+<!-- Select Basic -->
+<div class="form-group">
+    <label class="col-md-3 control-label">Модификация</label>
+    <div class="col-md-8">
+        <select onchange="LoadDescription(this.value);" id="CarType" name="CarType" class="form-control">
+            <option value="0" selected="selected" disabled="disabled">Выберите... </option>
+            @foreach (var subitem in @Model)
+            {
+                <option value="@subitem.ID" style="background-color: #E9E9E9; font-weight: bold;"> @subitem.Name.Tex_Text </option>
+            }
+        </select>
+    </div>
+</div>

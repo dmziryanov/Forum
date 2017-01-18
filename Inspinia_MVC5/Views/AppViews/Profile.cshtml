@@ -1,0 +1,208 @@
+﻿@model CustomRoutes.Models.ProfileModel
+<div class="main-container">
+    <div class="container">
+        <div class="row">
+            <!--/.page-sidebar-->
+
+            <div class="col-sm-9 page-content">
+                <div class="inner-box">
+                    <div class="row">
+                        <div class="col-md-5 col-xs-4 col-xxs-12">
+                            <h3 class="no-padding text-center-480 useradmin">
+                                <a href="/Home/PrivateOffice">
+                                    <img class="userImg" @if (@Model.User.UserAvatarId == 0) { <text> src="/images/user.jpg" </text>  } else { <text> src="/Photo/Index/@Model.User.UserAvatarId" </text>  } alt="user">@Model.User.FirstName @Model.User.LastName
+                                </a>
+
+                            </h3>
+                        </div>
+                        <div class="col-md-7 col-xs-8 col-xxs-12">
+                            <div class="header-data text-center-xs">
+
+                                <!-- Traffic data -->
+                                <div class="hdata">
+                                    <div class="mcol-left">
+                                        <!-- Icon with red background -->
+                                        <i class="fa fa-eye ln-shadow"></i>
+                                    </div>
+                                    <div class="mcol-right">
+                                        <!-- Number of visitors -->
+                                        <p><a href="#">0</a><em>Просмотров</em></p>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <!-- revenue data -->
+                                <div class="hdata">
+                                    <div class="mcol-left">
+                                        <!-- Icon with green background -->
+                                        <i class="icon-th-thumb ln-shadow"></i>
+                                    </div>
+                                    <div class="mcol-right">
+                                        <!-- Number of visitors -->
+                                        <p><a href="#">0</a><em>Объявлений</em></p>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <!-- revenue data -->
+                                <div class="hdata">
+                                    <div class="mcol-left">
+                                        <!-- Icon with blue background -->
+                                        <i class="fa fa-user ln-shadow"></i>
+                                    </div>
+                                    <div class="mcol-right">
+                                        <!-- Number of visitors -->
+                                        <p><a href="#">0</a> <em>Избранное</em></p>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inner-box">
+                    <div class="welcome-msg">
+                        <h3 class="page-sub-header2 clearfix no-padding">Здравствуйте @Model.User.FirstName @Model.User.LastName</h3>
+                        <span class="page-sub-header-sub small">Дата последнего логина: @Model.LastLogin</span>
+                    </div>
+                    <div id="accordion" class="panel-group">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"> <a href="#collapseB1" data-toggle="collapse">Мои данные</a></h4>
+                            </div>
+                            <div class="panel-collapse collapse in" id="collapseB1">
+                                <div class="panel-body">
+                                    <form action="/Home/UpdateProfile/" class="form-horizontal" method="post" role="form" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Имя</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="FirstName" class="form-control" value="@Model.User.FirstName">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Фамилия</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="LastName" class="form-control" value="@Model.User.LastName">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Адрес</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="Address" class="form-control" value="@Model.User.Address">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Phone" class="col-sm-3 control-label">Телефон</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" name="Phone" class="form-control" id="Phone" value="@Model.User.Phone">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Phone" class="col-sm-3 control-label">Ваше лого</label>
+                                            <div class="col-sm-9">
+                                                <input id="input-upload-img5" name="input-upload-img5" type="file" class="file" data-preview-file-type="text">
+                                            </div>
+                                        </div>
+                                        @*                                        <div class="form-group">
+                                                <label class="col-sm-3 control-label">Postcode</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" placeholder="1217">
+                                                </div>
+                                            </div>*@
+
+                                        <div class="form-group hide">
+                                            <!-- remove it if dont need this part -->
+                                            <label class="col-sm-3 control-label">Facebook account map</label>
+                                            <div class="col-sm-9">
+                                                <div class="form-control"> <a class="link" href="fb.com">Jhone.doe</a> <a class=""> <i class="fa fa-minus-circle"></i></a> </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-3 col-sm-9"> </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-3 col-sm-9">
+                                                <button type="submit" class="btn btn-default">Обновить</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"> <a href="#collapseB2" data-toggle="collapse"> Настройки </a> </h4>
+                            </div>
+                            <div class="panel-collapse collapse" id="collapseB2">
+                                <div class="panel-body">
+                                    <form class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox">
+                                                        Комментарии к моим объявлениям
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Новый пароль</label>
+                                            <div class="col-sm-9">
+                                                <input type="password" class="form-control" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Подтверждение</label>
+                                            <div class="col-sm-9">
+                                                <input type="password" class="form-control" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-3 col-sm-9">
+                                                <button type="submit" class="btn btn-default">Обновить</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"> <a href="#collapseB3" data-toggle="collapse"> Настройки </a> </h4>
+                            </div>
+                            <div class="panel-collapse collapse" id="collapseB3">
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox">
+                                                    Я хочу получать рассылки
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox">
+                                                    Я хочу получать советы по продаже и покупке
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/.row-box End-->
+
+                </div>
+            </div>
+            <!--/.page-content-->
+        </div>
+        <!--/.row-->
+    </div>
+    <!--/.container-->
+</div>
+<!-- /.main-container -->

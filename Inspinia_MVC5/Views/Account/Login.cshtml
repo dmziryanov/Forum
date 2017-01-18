@@ -1,0 +1,60 @@
+﻿@model BootStrap.Models.LoginModel
+
+<!-- /.header -->
+
+<div class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-5 login-box">
+                <div class="panel panel-default  card hoverable">
+                    <div class="panel-intro text-center">
+                        <h5>Вход в учетную запись</h5>
+                    </div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary()
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="sender-email" class="control-label">Логин (почтовый ящик):</label>
+                                    <div class="input-icon">
+                                        <i class="icon-user fa"></i>
+                                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.UserName)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="user-pass" class="control-label">Пароль:</label>
+                                    <div class="input-icon">
+                                        <i class="icon-lock fa"></i>
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.Password)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input class="btn btn-primary  btn-block" type="submit" value="Войти" />
+                                </div>
+                            </fieldset>
+                        }
+                        <p>
+                            @Html.ActionLink("Зарегистрируйтесь", "Register", "Account"), если у вас нет логина.
+                        </p>
+                    </div>
+                    <div class="panel-footer">
+
+                        <div class="checkbox pull-left">
+                            <label> <input type="checkbox" value="1" name="remember" id="remember">Запомнить меня</label>
+                        </div>
+
+
+                        @Html.ActionLink("Забыли пароль?", "Manage", "Account", new { @class = "text-center pull-right" })
+
+                        <div style=" clear:both"></div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</div>

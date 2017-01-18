@@ -1,0 +1,47 @@
+﻿@model RmsAuto.TechDoc.Entities.TecdocBase.CarType
+
+@{
+
+    Layout = null;
+}
+
+
+<strong>Модель:</strong> @if (Model != null)
+                         {
+                             @Model.Name.Tex_Text
+
+                             <br>
+                             <strong>
+                                 Кузов:
+                             </strong>
+                             @Model.BodyName.Tex_Text
+                             <br>
+                             <strong>
+                                 Тип двигателя:
+                             </strong>
+                             @Model.EngineName.Tex_Text
+                             <br>
+                             <strong>
+                                 Объем:
+                             </strong>
+                             @Model.EngineVolume.Value
+                             <br>
+                             <strong>
+                                 Тип топлива:
+                             </strong>
+                             @Model.FuelName.Tex_Text
+                             <br>
+                             <strong>
+                                 Цилиндры:
+                             </strong>
+                             @Model.TYP_CYLINDERS
+                             <br>
+                             <strong>Годы выпуска:</strong>
+                             @Model.DateFrom
+                             <strong>
+                                 -
+                             </strong>  @Model.DateTo
+                         }
+
+
+

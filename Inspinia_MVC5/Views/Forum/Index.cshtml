@@ -1,0 +1,67 @@
+﻿@model IEnumerable<DAL.Blog>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="intro">
+    <div class="dtable hw100">
+        <div class="dtable-cell hw100">
+            <div class="container text-center">
+                <h1 class="intro-title animated fadeInDown">Разделы форума</h1>
+                <p class="sub animateme fittext3 animated fadeIn">Индекс всех разделов форума сгруппированных по категориям</p>
+                <div class="row search-row animated fadeInUp">
+                    <div class="col-lg-6 col-sm-4 search-col relative">
+                        
+                        <input type="text" name="ads" id="ads" class="white-text white-bg card hover"  placeholder="Введите текст для поиска на форуме" value="">
+                    </div>
+                    <div class="col-lg-6 col-sm-4 search-col">
+                        <button onclick="Search();" class="btn btn-primary btn-search btn-block"><i class="icon-search"></i><strong>Найти</strong></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="panel panel-default">
+                    <div class="panel-intro text-center">
+                        <p>
+                            <h1>
+                                Для перехода к разделу нажмите на заголовок-ссылку (синим цветом)
+                            </h1>
+                        </p>
+                        <table class="table-responsive">
+
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.ActionLink(item.Name, "Topic", "Forum", new {Id = item.Id}, null)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Description)
+                                    </td>
+                                    @*
+                                        <td>
+                                            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                                            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                                            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+                                        </td>*@
+                                </tr>
+                            }
+
+                        </table>
+                    </div>
+
+                </div>
+                <div class="btn btn-primary small"> @Html.ActionLink("Предложить свой раздел", "Create", new { @class = "btn btn-primary btn-search btn-block" })</div>
+            </div>
+        </div>
+    </div>
+</div>

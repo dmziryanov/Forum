@@ -1,0 +1,580 @@
+﻿<script src="../../assets/js/owl.carousel.min.js"></script>
+<script type="text/javascript">
+
+    currentPage = 1;
+    maxPages = 1;
+    defaultPageNum = 1;
+    var count = 0;
+
+    function refreshedSaved(obj, id) {
+        $.ajax({
+            url: '/Adv/SaveAdv/' + id
+        }).success(function(data) {
+            $(obj).removeClass();
+            if (data == 'True') {
+                $(obj).addClass("btn btn-danger btn-sm make-favorite");
+                $(obj).children().eq(1).html("Удалить сохранение");
+            } else {
+                $(obj).children().eq(1).html("Сохранить");
+                $(obj).addClass("btn btn-default btn-sm make-favorite");
+            }
+
+            SavedBtn();
+        });
+    }
+
+    String.format = function() {
+        var theString = arguments[0];
+        for (var i = 1; i < arguments.length; i++) {
+            var regEx = new RegExp("\\{" + (i - 1) + "\\}", "gm");
+            theString = theString.replace(regEx, arguments[i]);
+        }
+
+        return theString;
+    }
+
+    function DeleteBook(href) {
+        $.ajax({
+            url: href.delurl
+        });
+        GetServerData(defaultPageNum);
+    }
+
+    $.ajaxSetup({ cache: false });
+
+    function refreshPager(pageNum, nextOper) {
+        count = 0;
+        $.ajax({
+            url: String.format("/Adv/GetPagesData?currentPage={0}&SortBy={1}&keywords={2}&location={3}&country={4}&category={5}&sminPrice={6}&smaxPrice={7}&type={8}&condition={9}", pageNum, $("#SortBy option:selected").text(), $("#keywords").val(), $("#id-location").val(), $("#Country option:selected").val(), $("#search-category option:selected").val(), $("#minPrice").val(), $("#maxPrice").val(), $("#ajaxTabs li[class='active'] a").attr("id"), $("#condition option:selected").val()),
+            method: 'GET',
+            datatype: 'json',
+            data: { query: 'test' },
+            success: function(pdata) {
+                pagedata = pdata;
+                maxPages = pdata.length;
+                if (pageNum < 1) pageNum = 1;
+                if (pageNum > maxPages) pageNum = maxPages;
+                currentPage = pageNum;
+                ko.mapping.fromJS(pagedata, {}, viewModel.PagedItems);
+                $(".pageItem").removeClass("selectedItem");
+                $(".pageItem:eq(" + pageNum + ")").addClass("selectedItem");
+
+            }
+        }).fail(function() { alert('Ошибка получения данных, попробуйте еще раз') }).success(function() {
+
+            $('.pager-btn').each(function(index, el) {
+                count++;
+                if (el.innerHTML == pageNum) {
+                    $(el.parentNode).addClass("active");
+
+                }
+            });
+            if (count == 0) {
+                $('#NotFound').show();
+            } else {
+                $('#NotFound').hide();
+
+            }
+
+            str = "test";
+
+            if (count == 15) {
+                $('#MaxPageWarning').show();
+            } else {
+                $('#MaxPageWarning').hide();
+
+            }
+            nextOper(currentPage);
+        });
+    }
+
+    function refreshBooks(pageNum) {
+        $.getJSON(String.format("/Adv/GetData?currentPage={0}&SortBy={1}&keywords={2}&location={3}&country={4}&category={5}&sminPrice={6}&smaxPrice={7}&type={8}&condition={9}", pageNum, $("#SortBy option:selected").text(), $("#keywords").val(), $("#id-location").val(), $("#Country option:selected").val(), $("#search-category option:selected").val(), $("#minPrice").val(), $("#maxPrice").val(), $("#ajaxTabs li[class='active'] a").attr("id"), $("#condition option:selected").val()),
+            function(booksdata) {
+                /* booksdata.forEach(function (el) {
+                     el.Delete = function () {
+                         $.ajax({
+                             url: el.deleteurl
+                         });
+                         GetServerData(defaultPageNum);
+                     }
+                 });*/
+                ko.mapping.fromJS(booksdata, {}, viewModel.Advs);
+
+                if (count > 1) {
+                    //$(".add-details").eq(6).append($(".ads-details-add"));
+
+                    $(".item-list:nth-child(8n)").after("<div class='ads-details-add item-list'></div>");
+                    //$(".item-list:nth-child(5n)").add(".item-list:nth-child(5n)").after("<div style='color:black'>test</div>");
+                    //Подумать как тут можно вкрячить дополнительный параметр
+                   $(".ads-details-add").load("/Category/ReserveGoogleAdvView/");
+                }
+
+                //    $('#additional').hide();
+
+            });
+    }
+
+    function GetServerData(pageNum) {
+        refreshPager(pageNum, refreshBooks);
+    }
+
+    function ViewModel() {
+        var self = this;
+
+        self.Advs = ko.observableArray([]);
+        self.PagedItems = ko.observableArray([]);
+    }
+
+    viewModel = new ViewModel();
+
+    function LoadData() {
+        GetServerData(defaultPageNum);
+        $(".dropdown").bind("change", function() { GetServerData(defaultPageNum); });
+
+    }
+
+    $(document).ready(function() {
+       // if ($(window).width() < 1400)
+        { $('#menu').addClass('inner-box-ads relative');
+            $('#menu').removeClass('menu');
+        }
+            
+        
+    
+
+        ShowFilters = function(data) {
+            if (data == 49)
+                $('#CarFilter').attr('style', 'visibility:visible');
+            else
+                $('#CarFilter').attr('style', 'visibility:hidden');
+        }
+
+        ShowFilters($("#search-category option:selected").val());
+
+        LoadData();
+        LoadModels = function(data, text) {
+            $('.brandName').html(text);
+            $("#ModelPartial").load("/Category/ModelList/" + data);
+        }
+
+        LoadModels(1);
+
+        ko.applyBindings(viewModel);
+
+        $('#SearchBtn').click(function() {
+            LoadData();
+        });
+
+        $('#smallSearchBtn').click(function() {
+            LoadData();
+        });
+
+
+        $("#ajaxTabs li").click(function() {
+            setTimeout(function() { LoadData(); }, 100);
+        });
+
+        $('#SortBy').on('change', function() {
+            LoadData();
+        });
+
+
+        filterCountry = function(id) {
+            $('#id-location option').attr('style', 'visibility:hidden; display:none;');
+            $('#id-location option').first().attr('style', 'visibility:visible; display:block;');
+            $('[countryid="' + id + '"').attr('style', 'visibility:visible; display:block;');
+        }
+        filterCountry(643); //Russia
+
+    });
+</script>
+
+<style>
+    .menu {
+        position: fixed; /* Фиксированное положение */
+        left: 10px; /* Расстояние от правого края окна браузера */
+        top: 30%; /* Расстояние сверху */
+        padding: 10px; /* Поля вокруг текста */
+        background: #ffe; /* Цвет фона */
+        width: 200px;
+        z-index: 10;
+    }
+
+    .text {
+        height: 1000px;
+    }
+</style>
+
+
+
+@model DAL.AdvModel
+@*<form action="/Category/Search/" method="GET">*@
+
+    <div  style="text-align:center;width:100%;">
+    
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad2 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:970px;height:250px"
+     data-ad-client="ca-pub-4618877618690589"
+     data-ad-slot="4777634954"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    </div>
+
+<div class="search-row-wrapper">
+    <div class="container ">
+        <div class="col-sm-3 white-text ">
+            <input id="keywords" name="keywords" class="form-control white-text" type="text" placeholder="Что найти? Например: мобильные" value="@Model.KeyWords">
+        </div>
+        <div class="col-sm-3">
+            <select onchange=" ShowFilters(this.value) " class="form-control hoverable" name="category" id="search-category">
+                <option @if (Model._subCategories.Where(x => x.ID == @Model.Category).FirstOrDefault() == null) { <text> selected="selected" </text>  } value="0">Все категории</option>
+                @foreach (var item in Model._categories)
+                {
+                    <option value="@item.ID" style="background-color: #E9E9E9; font-weight: bold;" disabled="disabled"> - @item.Name - </option>
+                    foreach (var subitem in Model._subCategories.Where(x => x.Category_Id == item.ID))
+                    {
+                        <option @if (@Model.Category == @subitem.ID) { <text> selected="selected" </text>  } value="@subitem.ID">@subitem.Name</option>
+                    }
+                }
+            </select>
+
+        </div>
+        <div class="col-sm-2">
+            <select class="form-control hoverable" onchange="filterCountry(this.value); " id="Country" name="Country" >
+                @foreach (var item in Model._countries)
+                {
+                    <option @if (@item.Code == Model.CountryCode) { <text>
+                            selected="selected"
+                            </text>   } value="@item.CountryId">
+                        @item.CountryName
+                    </option>
+                }
+            </select>
+
+        </div>
+        <div class="col-sm-2">
+            <select class="form-control hoverable" name="location" id="id-location">
+                <option @if (string.IsNullOrEmpty(@Model.LocationName))
+                        {
+                            <text> selected="selected" </text>
+                        } value="-1">Все</option>
+
+                @foreach (var item in Model._locations.OrderBy(x => x.Name))
+                {
+                    <option style="visibility: hidden; display: none;" countryid="@item.countryId"
+                            @if (Model.LocationName == item.Name)
+                            {
+                                <text>
+                                    selected="selected"
+                                </text>
+                            } value="@item.CityId">
+                        @item.Name
+                    </option>
+
+                }
+                <option value="-1">Другое</option>
+            </select>
+        </div>
+        <div class="col-sm-2">
+            <button class="btn btn-block btn-primary-dark btn-lg" style="height: 42px; margin-top: -0px !important;" id="SearchBtn"> <i class="fa fa-search"></i> Найти</button>
+        </div>
+    </div>
+</div>
+<!-- /.search-row -->
+<div class="main-container">
+<div class="container">
+<div class="row">
+<div class="col-sm-3 page-sidebar">
+    <aside>
+        <div class="card hoverable">
+            <div class="locations-list list-filter">
+                <h5 class="list-title"><strong><a href="#">Состояние</a></strong></h5>
+                <select class="form-control selecter" name=" condition" id="@Html.IdFor(x => x.condition)">
+                    <option selected="selected" value="0" selected="selected">
+                        Все
+                    </option>
+
+                    <option value="2">
+                        Новое
+                    </option>
+
+                    <option value="1">
+                        Б/У
+                    </option>
+                </select>
+            </div>
+            <!--/.list-filter-->
+            <div style="clear: both"></div>
+
+            <div class="locations-list list-filter">
+                <h5 class="list-title"><strong><a href="#">Ценовой диапазон</a></strong></h5>
+
+                <div class="form-group col-sm-4 no-padding">
+                    <input type="text" placeholder="1000" name="minPrice" id="minPrice" class="form-control">
+                </div>
+                <div class="form-group col-sm-1 no-padding text-center"> - </div>
+                <div class="form-group col-sm-4 no-padding">
+                    <input type="text" placeholder="3000" name="maxPrice" id="maxPrice" class="form-control">
+                </div>
+                <div class="form-group col-sm-3 no-padding">
+                    <button id="smallSearchBtn" class="btn btn-primary pull-right" style="height: 42px; margin-top: -0px !important;" type="submit"><i class="fa fa-search"></i></button>
+                </div>
+
+                <div style="clear: both"></div>
+            </div>
+            <!--/.list-filter-->
+            @*<div class="categories-list  list-filter">
+                <h5 class="list-title"><strong><a href="#">All Categories</a></strong></h5>
+                <ul class=" list-unstyled">
+                    <li><a href="sub-category-sub-location.html"><span class="title">Electronics</span><span class="count">&nbsp;8626</span></a> </li>
+                    <li><a href="sub-category-sub-location.html"><span class="title">Automobiles</span><span class="count">&nbsp;123</span></a> </li>
+                    <li><a href="sub-category-sub-location.html"><span class="title">Property</span><span class="count">&nbsp;742</span></a> </li>
+                    <li><a href="sub-category-sub-location.html"><span class="title">Services </span><span class="count">&nbsp;8525</span></a> </li>
+                    <li><a href="sub-category-sub-location.html"><span class="title">For Sale </span><span class="count">&nbsp;357</span></a> </li>
+                    <li><a href="sub-category-sub-location.html"><span class="title">Learning </span><span class="count">&nbsp;3576</span></a> </li>
+                    <li><a href="sub-category-sub-location.html"><span class="title">Jobs </span><span class="count">&nbsp;453</span></a> </li>
+                    <li><a href="sub-category-sub-location.html"><span class="title">Cars & Vehicles</span><span class="count">&nbsp;801</span></a> </li>
+                    <li><a href="sub-category-sub-location.html"><span class="title">Other</span><span class="count">&nbsp;9803</span></a> </li>
+                </ul>
+            </div>*@
+            <!--/.categories-list-->
+            @*   <div class="locations-list  list-filter">
+                <h5 class="list-title"><strong><a href="#">Location</a></strong></h5>
+                <ul class="browse-list list-unstyled long-list">
+                    <li> <a href="sub-category-sub-location.html"> Atlanta </a></li>
+                    <li> <a href="sub-category-sub-location.html"> Wichita </a></li>
+                    <li> <a href="sub-category-sub-location.html"> Anchorage </a></li>
+                    <li> <a href="sub-category-sub-location.html"> Dallas </a></li>
+                    <li> <a href="sub-category-sub-location.html"> New York </a></li>
+                    <li> <a href="sub-category-sub-location.html"> Santa Ana/Anaheim </a></li>
+                    <li> <a href="sub-category-sub-location.html"> Miami </a></li>
+                    <li> <a href="sub-category-sub-location.html"> Virginia Beach </a></li>
+                    <li> <a href="sub-category-sub-location.html"> San Diego </a></li>
+                    <li> <a href="sub-category-sub-location.html"> Boston </a></li>
+                    <li> <a href="sub-category-sub-location.html"> Houston </a></li>
+                    <li> <a href="sub-category-sub-location.html">Salt Lake City </a></li>
+                    <li> <a href="sub-category-sub-location.html"> Other Locations </a></li>
+                </ul>
+            </div>*@
+            <!--/.locations-list-->
+            @*                       <div class="locations-list  list-filter">
+                <h5 class="list-title"><strong><a href="#">Seller</a></strong></h5>
+                <ul class="browse-list list-unstyled long-list">
+                    <li> <a href="sub-category-sub-location.html"><strong>All Ads</strong> <span class="count">228,705</span></a></li>
+                    <li> <a href="sub-category-sub-location.html">Бизнес <span class="count">28,705</span></a></li>
+                    <li> <a href="sub-category-sub-location.html">Частное <span class="count">18,705</span></a></li>
+                </ul>
+            </div>*@
+            <!--/.list-filter-->
+
+        </div>
+
+        <div class="card hoverable">
+             <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- ad1 -->
+            <ins class="adsbygoogle"
+                 style="display: block"
+                 data-ad-client="ca-pub-4618877618690589"
+                 data-ad-slot="9347435357"
+                 data-ad-format="auto"></ins>
+            <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        @*  <div id="additional" class="inner-box relative">
+                        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- Responsive text -->
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-9707096941681181"
+                             data-ad-slot="2537855557"
+                             data-ad-format="auto"></ins>
+                        <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>*@
+        <!--/.categories-list-->
+    </aside>
+</div>
+<!--/.page-side-bar-->
+<div class="col-sm-9 page-content col-thin-left card hoverable">
+    <div class="category-list">
+        <div class="tab-box">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs add-tabs" id="ajaxTabs" role="tablist">
+                <li class="active"><a href="#allAds" id="allAds" role="tab" data-toggle="tab">Все@*<span class="badge">228,705</span>*@</a></li>
+                <li><a href="#businessAds" id="businessAds" role="tab" data-toggle="tab">Бизнес@* <span class="badge">22,805</span>*@</a></li>
+                <li><a href="#personalAds" id="personalAds" role="tab" data-toggle="tab">Частные@* <span class="badge">18,705</span>*@</a></li>
+            </ul>
+            <div class="tab-filter">
+                <select class="selectpicker" id="SortBy" data-style="btn-select" data-width="auto">
+                    <option value="0">Сортировать по</option>
+                    <option value="1">Цене: от большей к меньшей</option>
+                    <option value="2">Цене: от меньшей к большей</option>
+                    <option value="3">Дате: сначала новые</option>
+                    <option value="4">Дате: сначала старые</option>
+                </select>
+            </div>
+        </div>
+        <!--/.tab-box-->
+
+        <div class="listing-filter">
+            <div style="visibility: hidden;" id="CarFilter" class="pull-left col-xs-6">
+                <div class="breadcrumb-list"> <a href="#" class="current"> <span>Выберите марку: </span></a> <i class="BrandName"></i> <a href="#selectRegion" id="dropdownMenu1" data-toggle="modal"> <span class="caret"></span> </a>
+                </div>
+            </div>
+            <div class="pull-right col-xs-6 text-right listing-view-action"> <span class="list-view active"><i class="  icon-th"></i></span> <span class="compact-view"><i class=" icon-th-list  "></i></span> <span class="grid-view "><i class=" icon-th-large "></i></span> </div>
+            <div style="clear: both"></div>
+        </div>
+        <!--/.listing-filter-->
+        <h3>
+            <span id="NotFound" class="label label-info">
+                            Пока ничего не найдено, попробуйте изменить условия поиска или добавить свое объявление
+                        </span>
+
+            <span class="label label-danger" id="MaxPageWarning">
+                            Слишком много результатов поиска, показаны первые 15
+                        </span>
+        </h3>
+        <div class="adds-wrapper" data-bind="foreach: Advs">
+            <div class="item-list">
+                <div data-bind="attr: { style: topAdsVisible }" class="cornerRibbons topAds">
+                    <a href="#">Топ-Предложения</a>
+                </div>
+                <div data-bind="attr: { style: featuredAdsVisible }" class="cornerRibbons featuredAds">
+                    <a href="#">Продвигаемые</a>
+                </div>
+                <div data-bind="attr: { style: urgentAdsVisible }" class="cornerRibbons urgentAds">
+                    <a href="#">Срочно</a>
+                </div>
+                <div class="col-sm-2 no-padding photobox">
+                    <div class="card-up">
+                        @*<span data-bind="text: PhotoCount" class="photo-count"><i class="fa fa-camera"></i> </span>*@
+                        <a data-bind="attr: { href: adsurl }"><img class="img-responsive z-depth-2" data-bind="attr: { src: firstphoto }" src="" alt="img"></a>
+                    </div>
+                </div>
+                <!--/.photobox-->
+                <div class="col-sm-7 add-desc-box ">
+                    <div class="add-details">
+                        <h5 class="add-title">
+                            <a data-bind="attr: { href: adsurl }" href="" target="_blank">
+                                <span data-bind="text: Name"></span>
+                            </a>
+                        </h5>
+                        <span class="info-row ">
+                                        <span data-bind="attr: { title: AdvTypeFullName }" class=" add-type business-ads tooltiphere" data-toggle="tooltip" data-placement="right" title="Бизнес"><span data-bind="text: AdvTypeShortName"></span></span>
+                                        <span data-bind="text: CreatedText" class="date"><i class=" icon-clock"> </i>Today 1:21 pm</span> -
+                                        <span data-bind="text: CategoryName" class="category"></span> -
+                                        <span data-bind="text: LocationName" class="item-location"><i class="fa fa-map-marker"></i> </span>
+                        </span>
+                    </div>
+
+                </div>
+
+                <!--/.add-desc-box-->
+                <div class="col-sm-3 text-right  price-box">
+                    <h2 data-bind="text: PriceLabel" class="item-price text-warning"> 999 </h2>
+                    @*<a class="btn btn-danger  btn-sm make-favorite"> <i class="fa fa-certificate"></i> <span>Top Ads</span> </a> *@
+                    <a data-bind="{attr: { onclick: SaveAdsUrl,  class: SavedAdsClass} }" class="">
+                        <i class="fa fa-heart"></i><span data-bind="text: SavedText">Сохранить</span>
+                    </a>
+                </div>
+                <!--/.add-desc-box-->
+            </div>
+
+
+        </div>
+
+        <!--/.adds-wrapper-->
+        @*<div class="tab-box  save-search-bar text-center"> <a href=""> <i class="icon-star-empty"></i>Сохранить результаты поиска</a> </div>*@
+    </div>
+    <div class="pagination-bar text-center">
+        <ul class="pagination">
+            <li><a class="pagination-btn " onclick="GetServerData(parseInt(currentPage, 10) - 1); "> <i class="fa fa-chevron-left"></i></a></li>
+        </ul>
+        <ul class="pagination" data-bind="foreach: PagedItems">
+            <li>
+                <a class="pager-btn" data-bind="text: pagenum" onclick=" GetServerData(this.innerHTML); "></a>
+            </li>
+        </ul>
+        <ul class="pagination">
+            <li><a class="pagination-btn" onclick="GetServerData(parseInt(currentPage, 10) + 1); "> <i class="fa fa-chevron-right"></i> </a></li>
+        </ul>
+
+    </div>
+    <!--/.pagination-bar -->
+
+    <div class="post-promo text-center">
+        <h2> У Вас есть что-нибудь что можно продать? </h2>
+        <h5>Продавайте онлайн бесплатно. Мы работаем, чтобы это было просто</h5>
+    </div>
+
+    <div class="text-center"  style="clear: both; padding: 35px">
+            @Html.ActionLink("Добавить объявление", "PostAdv", "Adv", null, new { @class = "btn btn-danger" })
+    </div>
+
+
+
+
+</div>
+<!--/.page-content-->
+
+<div  style="clear: both; padding: 5px"></div>
+    <div class="inner-box-ads relative card hoverable col-sm-9 pull-right">
+   
+    </div>
+
+</div>
+
+  
+
+
+</div>
+
+    </div>
+    <!-- /.main-container -->
+    <!-- /.wrapper -->
+    <!-- Modal Change City -->
+
+    <div class="modal fade" id="selectRegion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Закрыть</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel"><i class=" icon-map"></i>Выберите брэнд и модель</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <p>
+                                Показать модели брэнда <strong class="BrandName"></strong>
+                            </p>
+                            <div style="clear: both"></div>
+                            <div class="col-sm-6 no-padding">
+                                <select onchange="LoadModels(this.value, this.val);" class="form-control" id="brand_state" name="region-state">
+                                    <option value="">Все</option>
+                                    @foreach (var item in Model._Brands)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                </select>
+                            </div>
+                            <div style="clear: both"></div>
+
+                            <hr class="hr-thin">
+                        </div>
+
+                        <div id="ModelPartial"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<
+@*</form>*@

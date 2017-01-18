@@ -1,0 +1,10 @@
+﻿@model BootStrap.Models.ErrorInfo
+
+@{
+    ViewBag.Title = "Error";
+}
+
+<hgroup class="title">
+    <h1 class="error">Ваш запрос не может быть обработан.</h1>
+    <a class="error" onclick="history.back();">@Model.message (нажмите чтобы вернуться)</a>
+</hgroup>

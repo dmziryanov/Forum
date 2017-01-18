@@ -1,0 +1,123 @@
+﻿@model IEnumerable<DAL.Blog>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<script>
+    $(document).ready(function () {
+        fdelete = function (data) {
+            $.ajax({
+                url: '/Blog/WholeBlogDelete',
+                data: {id : data},
+                method: 'POST',
+                success: function(){
+                    location.reload();
+                }
+            });
+            
+        }
+
+        frestore = function (data) {
+            $.ajax({
+                url: '/Blog/WholeBlogRestore',
+                data: {id : data},
+                success: function(){
+                    location.reload();
+                }
+            });
+        }
+    });
+</script>
+
+<div class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="panel panel-default card hoverable">
+                <div class="panel-intro text-center">
+
+                    <p>
+                        <h1>
+                            Администрирование разделов категорий
+                        </h1>
+                        <div class="btn btn-primary small"> @Html.ActionLink("Создать еще", "Create", new { @class = "btn btn-primary btn-search btn-block" })</div>
+                    </p>
+                    <table class="table-responsive">
+                     @*   <tr>
+                            <th>
+                                Шапка
+                            </th>
+                            <th>
+                                Название
+                            </th>
+                            <th>
+                                Описание
+                            </th>
+                            <th>
+                                Действия
+                            </th>
+                            <th>
+                                Отметки
+                            </th>
+                        </tr>*@
+
+                        @foreach (var item in Model)
+                        {
+                            <tr style="background: /Photo/Thumb/@item.ImageId">
+                                <td>
+                                    <div class="col-sm-8 no-padding photobox">
+                                        <div class="add-image">
+                                            <a href="/Blog/BlogDetails/@item.Id"><img src="/Photo/Thumb/@item.ImageId" class="thumbnail no-margin" alt="img"></a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    @Html.ActionLink(item.Name, "BlogDetails", "Forum", new { Id = item.Id }, null)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+
+                                <td>
+                                    @Html.ActionLink("Редактировать", "EditBlog", new {id = item.Id}) |
+                                    <a onclick="$('#deleteBlog_@item.Id').modal('show');" href="#deleteBlog_@item.Id">Удалить</a>
+                                </td>
+                                <td>
+                                    @if (@item.IsDeleted == 1)
+                                    {
+                                        <text>
+                                            <a class="btn btn-xs btn-danger" onclick="frestore(@item.Id)" href="#">Востановить</a>
+                                        </text>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@foreach (var item in Model)
+{
+    <div class="modal fade" id="deleteBlog_@item.Id" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title"><i class="icon-mail-2"></i>Удаление блога</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        Вы действительно хотите удалить блог @item.Name
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="fdelete(@item.Id);" type="button" class="btn btn-danger" data-dismiss="modal">Удалить</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

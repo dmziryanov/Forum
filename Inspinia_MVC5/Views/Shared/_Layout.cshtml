@@ -1,0 +1,311 @@
+﻿@using System.Web.UI.WebControls
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../../ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.png">
+    <title>@ViewBag.Message - Auto-Forum.Club</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/assets/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <meta name="Keywords" content="@ViewBag.Keywords">
+    <meta name="Description" content="@ViewBag.Description">
+
+    <!-- Bootstrap core CSS -->
+    <link href="/assets/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="/Content/Site.css" rel="stylesheet">
+    <meta name="Keywords" content="@ViewBag.Keywords">
+    <meta name="Description" content="@ViewBag.Description">
+
+    <!-- Custom styles for this template -->
+    <link href="/assets/css/style.css" rel="stylesheet">
+    
+    <link href="/assets/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+
+    <!-- styles needed for carousel slider -->
+    <link href="/assets/css/owl.carousel.css" rel="stylesheet">
+    <link href="/assets/css/owl.theme.css" rel="stylesheet">
+    <!-- Material Design Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <!-- Bootstrap core CSS -->
+    @*<link href="/css/bootstrap.min.css" rel="stylesheet">*@
+
+    <!-- Material Design Bootstrap -->
+    <link href="/css/mdb.css" rel="stylesheet">
+
+    <!-- Template style -->
+    <link href="/css/style.css" rel="stylesheet">
+    
+
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    @*<script type="text/javascript" src="/js/jquery.min.js"></script>*@
+
+    <!-- Bootstrap core JavaScript -->
+    @*<script type="text/javascript" src="/js/bootstrap.min.js"></script>*@
+
+    @*<script type="text/javascript" src="/js/jquery.min.js"></script>*@
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/knockout")
+    
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#TopSearchText').keypress(function(e) {
+                var key = e.which;
+                if (e.keyCode == 13) {
+                    setTimeout(function() { window.location.href = '/Category/Search?keywords=' + $("#TopSearchText").val() + '&location=' + $("[name='country']").val(); }, 200);
+                }
+            });
+        });
+
+
+    </script>
+
+
+    <script src="/assets/bootstrap/js/bootstrap.js"></script>
+    <!-- Just for debugging purposes. -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <!-- include pace script for automatic web page progress bar -->
+
+</head>
+
+<body class="">
+
+    @RenderSection("scripts", required: false)
+    @RenderSection("styles", required: false)
+
+    <div class="header">
+        <div style="visibility: visible; display: block;" onclick="hideChosenWarn();" id="AddWarn1" class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" tooltip="Закрыть" aria-hidden="true">&times;</button>
+            <a style="color: firebrick" class="icon-certificate-1 icon-color-1" href="http://auto-forum.club" rel="sidebar" onclick="addToFavorites('Сайт объявлений, удобных блогов и отзывов');">Добавьте сайт в избранное, чтобы не потерять: нажмите 2 клавиши сразу: ctrl + D</a> или <i class="icon-star-1">Нажмите звездочку в строке браузера</i>
+        </div>
+
+
+        <nav class="navbar z-depth-2 white darken-1">
+            <div class="container text-black">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    
+                    
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a class="" style="margin-top: -20px; z-index: 11;" href="/"><img style="z-index: 11;" src="../../Images/apec_logo.png" /></a>
+                        </li>
+                        <li>
+                            <a class="black-text" href="/"></a>
+                        </li>
+                        <li>
+                            <a id="SavedBtn" style="visibility: hidden" href="/Adv/Favorite/" class="btn btn-danger btn-sm make-favorite">
+                                <i class="fa fa-heart"></i><span> ИЗБРАННОЕ</span>
+                            </a>
+                        </li>
+                        @if (!Request.IsAuthenticated)
+                        {
+                            <text>
+
+                                <li>@Html.ActionLink("Вход", "LogOn", "Account", new {}, new {@class = "black-text"})</li>
+                                <li>@Html.ActionLink("Регистрация", "Register", "Account", new {}, new {@class = "black-text"})</li>
+
+                            </text>
+                        }
+                        else
+                        {
+                            <text>
+
+
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span class="black-text">Мой Аккаунт</span> <i class="icon-user fa"></i> <i class=" icon-down-open-big fa"></i></a>
+                                    <ul class="dropdown-menu user-menu">
+                                        <li><a class="active" href="/AppViews/Profile2"><i class="icon-folder-close"></i>Личный кабинет</a></li>
+                                        @if (@WebSecurity.CurrentUserId == 4)
+                                        {
+                                        
+                                            <li><a href="/Forum/MyBlog/@WebSecurity.CurrentUserId"><i class="icon-folder-close"></i> Мои темы </a></li>
+                                        }
+                                                <li><a href="/Forum/MyAnswers/@WebSecurity.CurrentUserId"><i class="icon-folder-close"></i> Мои ответы  </a></li>
+                                                <li><a href="/Forum/OtherAnswers/@WebSecurity.CurrentUserId"><i class="icon-th-thumb"></i> Ответы мне </a></li>
+                                                @*<li><a href="/Forum/MyCars/@WebSecurity.CurrentUserId"><i class="icon-heart"></i> Мои машины </a></li>*@
+
+                                                @*<li><a href="account-pending-approval-ads.html"><i class="icon-hourglass"></i> Ожидающие подтверждения </a></li>*@
+                                                @*<li><a href="statements.html"><i class=" icon-money "></i> Payment history </a></li>*@
+                                    </ul>
+                                </li>
+
+                                <li>@Html.ActionLink("Выход", "LogOff", "Account", new { }, new { @class = "black-text" })</li>
+                            </text>
+                        }
+                        <li class="postadd">
+                            <li>@Html.ActionLink("Задать вопрос на форуме", "CreatePost", "Forum", new { Id = @WebSecurity.CurrentUserId }, new { @class = "btn-danger waves-effect waves-light" })</li>
+                            
+                        </li>
+                        @*<li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Другие сервисы<i class=" icon-down-open-big fa"></i></a>
+                                <ul class="dropdown-menu user-menu">
+                                    <li class="postadd">
+                                        <div>@Html.ActionLink("+ Отзыв", "PostReview", "Review")</div>
+                                    </li>
+                                    <li class="postadd">
+                                        <div>@Html.ActionLink("+ Блог", "Create", "Blog")</div>
+                                    </li>
+                                </ul>
+                            </li>*@
+                    </ul>
+                    
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div id="body">
+
+        @RenderSection("featured", required: false)
+        <section class="content-wrapper main-content clear-fix">
+            @RenderBody()
+        </section>
+    </div>
+    <footer class="page-footer white-box darken-1 card" id="footer">
+        <div class="container">
+            <div class="row">
+
+                
+                 
+
+
+                <div class="col-md-7 text-left">
+                    <ul class="pull-left navbar-link footer-nav">
+                        <li>
+                            @*<a class="grey-text text-lighten-3" href="/" target="_blank">ГЛАВНАЯ</a>*@
+                        
+                            @*<a class="grey-text text-lighten-3" href="/Home/Contact/" target="_blank">СООБЩЕНИЕ</a>*@
+                        
+                            <a class="black-text text-lighten-3" href="/Home/Contact/" target="_blank">СООБЩИТЬ ОБ ОШИБКЕ</a>
+                        
+                            <a class="black-text text-lighten-3" href="/Home/FAQ/" target="_blank">Часто задаваемые вопросы</a>
+                        </li>
+
+
+                    </ul>
+
+                    </div>
+
+
+
+
+                        @*<div class="col-md-3 text-left">
+                            <p class="white-text text-left">МЫ В СОЦСЕТЯХ</p>
+                            <a target="_blank" href="https://www.facebook.com/spareauto/" class="btn-floating btn-large fb-bg waves-effect waves-light"><i class="fa fa-facebook"> </i></a>
+                            <a target="_blank" href="http://vk.com/spare_auto" class="btn-floating btn-large tw-bg waves-effect waves-light"><i class="fa fa-vk"> </i></a>
+                            $1$<a target="_blank" href="https://plus.google.com/u/0/b/107863090883699620484/107863090883699620484/posts" class="btn-floating btn-large gplus-bg waves-effect waves-light"><i class="fa fa-google-plus"> </i></a>#1#
+                        </div>*@
+                        <div class="col-md-3 text-center">
+                            <!--LiveInternet counter-->
+                            <!--LiveInternet counter-->
+                            <script type="text/javascript">
+<!--
+document.write("<a href='//www.liveinternet.ru/click' "+
+"target=_blank><img src='//counter.yadro.ru/hit?t14.6;r"+
+escape(document.referrer)+((typeof(screen)=="undefined")?"":
+";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+";"+Math.random()+
+"' alt='' title='LiveInternet: показано число просмотров за 24"+
+" часа, посетителей за 24 часа и за сегодня' "+
+"border='0' width='88' height='31'><\/a>")
+//--></script><!--/LiveInternet-->
+
+                            <!-- Rating@Mail.ru counter -->
+                            <script type="text/javascript">
+                                var _tmr = window._tmr || (window._tmr = []);
+                                _tmr.push({ id: "2727135", type: "pageView", start: (new Date()).getTime() });
+                                (function (d, w, id) {
+                                    if (d.getElementById(id)) return;
+                                    var ts = d.createElement("script");
+                                    ts.type = "text/javascript";
+                                    ts.async = true;
+                                    ts.id = id;
+                                    ts.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//top-fwz1.mail.ru/js/code.js";
+                                    var f = function () {
+                                        var s = d.getElementsByTagName("script")[0];
+                                        s.parentNode.insertBefore(ts, s);
+                                    };
+                                    if (w.opera == "[object Opera]") {
+                                        d.addEventListener("DOMContentLoaded", f, false);
+                                    } else {
+                                        f();
+                                    }
+                                })(document, window, "topmailru-code");
+                            </script><noscript>
+                                <div style="position: absolute; left: -10000px;">
+                                    <img src="//top-fwz1.mail.ru/counter?id=2727135;js=na" style="border: 0;" height="1" width="1" alt="Рейтинг@Mail.ru" />
+                                </div>
+                            </noscript>
+                            <!-- //Rating@Mail.ru counter -->
+                            <!-- Rating@Mail.ru logo -->
+                            <!-- Rating@Mail.ru logo -->
+                            <!-- Rating@Mail.ru logo --> <a href="http://top.mail.ru/jump?from=2727135"> <img src="//top-fwz1.mail.ru/counter?id=2727135;t=501;l=1" style="border: 0;" height="31" width="88" alt="Рейтинг@Mail.ru" /></a> <!-- //Rating@Mail.ru logo -->
+                            <!-- //Rating@Mail.ru logo -->
+                            <!-- //Rating@Mail.ru logo -->
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <div class="container">
+                            <div class="col-md-10 col-md-offset-1">
+                                <p class="white-text center-on-small-only">
+                            </div>
+
+                            @*<p class="white-text center-on-small-only">
+                                Начинайте: легко @Html.ActionLink("зарегистристрируйтесь", "Register", "Account", null, new { @class = "text-black hoverable" }) или <a class="text-black hoverable" href="/Adv/PostAdv/">добавьте объявление</a> без регистрации
+                            </p>*@
+                            <a href="/Blog/CreatePost/@WebSecurity.CurrentUserId" class="btn btn-danger waves-effect waves-light">Задать вопрос на форуме</a>
+
+                            <a href="/">&copy;2015 ADV.SPARE-AUTO.COM</a>
+                        </div>
+                    </div>
+                </div>
+</footer>
+
+
+
+
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    @*<script type="text/javascript" src="js/jquery.min.js"></script>
+
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>*@
+
+    <!-- Material Design Bootstrap -->
+    <script type="text/javascript" src="/js/mdb.js"></script>
+
+
+
+
+    <div class="hiddendiv common"></div>
+
+</body>
+
+
+</html>

@@ -1,0 +1,179 @@
+﻿@model DAL.UserProfile
+@{
+    ViewBag.Title = "Register";
+}
+
+<div class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 page-content">
+                <div class="card-panel  hoverable">
+                    <h2 class="title-2"> <i class="icon-user-add"></i>Заведите учетную запись, это бесплатно</h2>
+                    <div class="row">
+                        
+                            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "col-md-12" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary()
+                                <fieldset>
+                                    <div class="form-group required">
+                                        <label class="col-md-4 control-label">Вы регистрируетесь как<sup>*</sup></label>
+                                        <div class="col-md-6">
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="UserType" id="UserType" value="0" checked>
+                                                    Частное лицо
+                                                </label>
+                                            </div>
+
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="UserType" id="UserType" value="1">
+                                                    Специалист
+                                                </label>
+                                            </div>
+
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="UserType" id="UserType" value="2">
+                                                    Компания
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <!-- Text input-->
+                                    <div class="form-group required">
+                                        <label class="col-md-4 control-label">Имя <sup>*</sup></label>
+                                        <div class="col-md-6">
+                                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+
+                                    <!-- Text input-->
+                                    <div class="form-group required">
+                                        <label class="col-md-4 control-label">Фамилия <sup>*</sup></label>
+                                        <div class="col-md-6">
+                                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+
+                                    <!-- Text input-->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Номер телефона <sup></sup></label>
+                                        <div class="col-md-6">
+                                            @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+                                            <div class="checkbox">
+                                                <label>
+                                                    @Html.CheckBoxFor(m => m.HideNumber)
+                                                    <small>Прятать номер телефона.</small>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Multiple Radios -->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Вы: </label>
+                                        <div class="col-md-6">
+                                            <div class="radio">
+                                                <label for="Gender-0">
+                                                    <input name="Gender" id="Gender" value="1" checked="checked" type="radio">
+                                                    Мужчина
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label for="Gender-1">
+                                                    <input name="Gender" id="Gender" value="2" type="radio">
+                                                    Женщина
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Textarea -->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="textarea">Немного о себе</label>
+                                        <div class="col-md-6">
+                                            @Html.TextAreaFor(m => m.About, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group required">
+                                        <label for="inputEmail3" class="col-md-4 control-label">Электропочта<sup>*</sup></label>
+                                        <div class="col-md-6">
+                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                            <p class="help-block">Почта необходима для смены пароля и входа на форум<!--Example block-level help text here.--></p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group required">
+                                        <label for="inputPassword3" class="col-md-4 control-label">Пароль</label>
+                                        <div class="col-md-6">
+                                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                            <p class="help-block">как минимум 6 символов<!--Example block-level help text here.--></p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group required">
+                                        <label for="inputPassword4" class="col-md-4 control-label">Еще раз пароль</label>
+                                        <div class="col-md-6">
+                                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                                            <p class="help-block">повторите<!--Example block-level help text here.--></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label"></label>
+                                        <div class="col-md-8">
+                                            <div class="termbox mb10">
+                                                <label class="checkbox-inline" for="checkboxes-1">
+                                                    <input name="checkboxes" id="checkboxes-1" value="1" type="checkbox">
+                                                    Я согласен с  @Html.ActionLink("условиями использования", "Terms", "Home");
+                                                </label>
+                                            </div>
+                                            <div style="clear: both"></div>
+                                            <input class="btn btn-primary" type="submit" value="Зарегистрироваться" />
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            }
+                    </div>
+                </div>
+            </div>
+            <!-- /.page-content -->
+
+            <div class="col-md-4 reg-sidebar">
+                <div class="reg-sidebar-inner text-center">
+                    <div class="promo-text-box">
+                        <i class=" icon-picture fa fa-4x icon-color-1"></i>
+                        <h3><strong>Зачем регистрироваться?</strong></h3>
+                        <p>Получите доступ к личному кабинету</p>
+                    </div>
+                    <div class="promo-text-box">
+                        <i class=" icon-pencil-circled fa fa-4x icon-color-2"></i>
+                        <h3><strong>Управляйте своими темами</strong></h3>
+                        <p>
+                            Создавайте темы и отвечайте на вопросы
+                        </p>
+                    </div>
+                    <div class="promo-text-box">
+                        <i class="  icon-heart-2 fa fa-4x icon-color-3"></i>
+                        <h3><strong>Зарабатывайте репутацию</strong>
+                        </h3>
+                        <p>
+                            Это поможет Вам общаться с другими специалистами
+                        </p>
+                    </div>
+                    <div class="promo-text-box">
+                        <i class="icon-home fa fa-4x icon-color-5"></i>
+                        <h3><strong>Создайте страницу своей компании</strong></h3>
+                        <p>
+                            Для привлечения покупателей автотоваров
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }</div></div>

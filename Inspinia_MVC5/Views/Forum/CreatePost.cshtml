@@ -1,0 +1,145 @@
+﻿@Styles.Render("~/plugins/summernoteStyles")
+@Scripts.Render("~/plugins/summernote")
+
+@model DAL.BlogPost
+
+<script src="/assets/plugins/summernote/summernote.min.js"></script>
+<script src="/assets/plugins/summernote/jquery.tooltip.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.summernote').summernote();
+
+    });
+</script>
+
+<div class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 login-box">
+                <div class="panel panel-default card hoverable">
+                    <div class="panel-intro text-center">
+                        <h1>Новая тема</h1>
+                    </div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm("Post", "Forum", new { Id = @Model.BlogId }, FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+
+                            <fieldset>
+
+
+                                <input type="text" name="BlogId" style="visibility: hidden" id="BlogId" class="form-control" value="@Model.BlogId" />
+
+
+
+
+
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Тема:</label>
+                                        <div id="MessageTitle" class="col-md-8">
+                                            <input type="text" id="Topic" name="Topic" class="form-control" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="textarea"> Главное фото </label>
+                                        <div class="col-md-8">
+                                            <input id="somename" name="somename" type="file" class="file" data-preview-file-type="text">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p class="help-block">Добавьте 1 главную фотографию шапки, рекомендуемый формат 600 х 800, размер не более 100Кб.</p>
+                                        <label class="col-md-4 control-label" for="textarea"> фото 1 </label>
+                                        <div class="col-md-8">
+                                            <input id="input-upload-img1" name="input-upload-img1" type="file" class="file" data-preview-file-type="text">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="textarea"> фото 2 </label>
+                                        <div class="col-md-8">
+
+                                            <input id="input-upload-img2" name="input-upload-img2" type="file" class="file" data-preview-file-type="text">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="textarea"> фото 3 </label>
+                                        <div class="col-md-8">
+
+                                            <input id="input-upload-img3" name="input-upload-img3" type="file" class="file" data-preview-file-type="text">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="textarea"> фото 4 </label>
+                                        <div class="col-md-8">
+
+                                            <input id="input-upload-img4" name="input-upload-img4" type="file" class="file" data-preview-file-type="text">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="textarea">Текст </label>
+                                        <div class="col-md-8">
+                                            <textarea style="height: 250px" class="form-control" id="Body" name="Body" placeholder="О чем это я? Ах, да..."></textarea>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p class="help-block">Добавьте вложения, файлы ворд, эксель, акробат, текстовые документы и т.д.</p>
+                                        <label class="col-md-4 control-label" for="textarea"> файл 1 </label>
+                                        <div class="col-md-8">
+                                            <input id="input-upload-file1" name="input-upload-file1" type="file" class="file" data-preview-file-type="text">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="textarea"> файл 2 </label>
+                                        <div class="col-md-8">
+
+                                            <input id="input-upload-file2" name="input-upload-file2" type="file" class="file" data-preview-file-type="text">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="textarea"> файл 3 </label>
+                                        <div class="col-md-8">
+
+                                            <input id="input-upload-file3" name="input-upload-file3" type="file" class="file" data-preview-file-type="text">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="textarea"> файл 4 </label>
+                                        <div class="col-md-8">
+
+                                            <input id="input-upload-file4" name="input-upload-file4" type="file" class="file" data-preview-file-type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <div class="col-md-7 pull-right">
+                                        <input class="btn btn-primary btn-lg" type="submit" value="Опубликовать" />
+                                    </div>
+                                </div>
+
+
+                            </fieldset>
+                        }
+
+
+                    </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+

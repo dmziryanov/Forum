@@ -1,0 +1,691 @@
+﻿@using DAL
+@model DAL.AdvModel
+<script src="../../assets/js/owl.carousel.min.js"></script>
+<script src="../../assets/js/adsdetails.js"></script>
+<link href="../../assets/plugins/bxslider/jquery.bxslider.css" rel="stylesheet" />
+<script>
+    $(document).ready(function() {
+        $('.bxslider').bxSlider({
+            pagerCustom: '#bx-pager'
+        });
+    });
+
+    @if (@Model is CarAdvModel)
+    {
+        <text>
+        
+            $.get("/Car/CarDescription/@((Model as CarAdvModel).CarType)", function(data) {
+                $("#CarDescription").replaceWith(data);
+            });
+
+        </text>
+    }
+
+
+    function refreshedSaved(obj, id) {
+        $.ajax({
+            url: '/Adv/SaveAdv/' + id
+        }).success(function(data) {
+            $(obj).removeClass();
+            if (data == 'True')
+            {
+                $(obj).addClass("btn btn-danger btn-sm make-favorite");
+                $(obj).children().eq(1).html("Удалить сохранение");
+            }
+            else
+            {
+                $(obj).children().eq(1).html("Сохранить");
+                $(obj).addClass("btn btn-default btn-sm make-favorite");
+            }
+
+            SavedBtn();
+        });
+    }
+
+
+
+    Share = {
+        vkontakte: function(purl, ptitle, pimg, text) {
+            url = 'http://vkontakte.ru/share.php?';
+            url += 'url=' + encodeURIComponent(purl);
+            url += '&title=' + encodeURIComponent(ptitle);
+            url += '&description=' + encodeURIComponent(text);
+            url += '&image=' + encodeURIComponent(pimg);
+            url += '&noparse=true';
+            Share.popup(url);
+        },
+        odnoklassniki: function(purl, text) {
+            url = 'http://www.odnoklassniki.ru/dk?st.cmd=addShare&st.s=1';
+            url += '&st.comments=' + encodeURIComponent(text);
+            url += '&st._surl=' + encodeURIComponent(purl);
+            Share.popup(url);
+        },
+        facebook: function(purl, ptitle, pimg, text) {
+            url = 'http://www.facebook.com/sharer.php?s=100';
+            url += '&p[title]=' + encodeURIComponent(ptitle);
+            url += '&p[summary]=' + encodeURIComponent(text);
+            url += '&p[url]=' + encodeURIComponent(purl);
+            url += '&p[images][0]=' + encodeURIComponent(pimg);
+            Share.popup(url);
+        },
+        twitter: function(purl, ptitle) {
+            url = 'http://twitter.com/share?';
+            url += 'text=' + encodeURIComponent(ptitle);
+            url += '&url=' + encodeURIComponent(purl);
+            url += '&counturl=' + encodeURIComponent(purl);
+            Share.popup(url);
+        },
+        mailru: function(purl, ptitle, pimg, text) {
+            url = 'http://connect.mail.ru/share?';
+            url += 'url=' + encodeURIComponent(purl);
+            url += '&title=' + encodeURIComponent(ptitle);
+            url += '&description=' + encodeURIComponent(text);
+            url += '&imageurl=' + encodeURIComponent(pimg);
+            Share.popup(url);
+        },
+
+        googleru: function(purl, ptitle, pimg, text) {
+            url = 'http://plus.google.com/share?';
+            url += 'url=' + encodeURIComponent(purl);
+            url += '&title=' + encodeURIComponent(ptitle);
+            url += '&description=' + encodeURIComponent(text);
+            url += '&imageurl=' + encodeURIComponent(pimg);
+            Share.popup(url);
+        },
+
+        popup: function(url, soc) {
+            window.open(url, '', 'toolbar=0,status=0,width=626,height=436');
+            $.post('/Adv/share/', { page: @Model.Id }, function(data) {});
+        }
+    };
+
+    var sendAbuseMessage = function() {
+        $.post('/Adv/Report/', { page: @Model.Id, couse: $('#report-reason option:selected').text(), mail: $('#recipient-email').val(), text: $('#message-text2').val() }, function(data) {});
+        $('#reportAdvertiser').modal('hide');
+    };
+
+    var sendMessage = function() {
+        @if (!(@Model.CurrentUser == null))
+        {
+            <text>
+        $.post('/Adv/SiteMessage/', {page: @Model.Id, userId: @Model.CurrentUser.UserId, phone: $('#recipient-Phone-Number').val(),  mail: $('#sender-email').val(), text: $('#message-text').val() }, function (data) { });
+        </text>
+        }
+        else
+        {
+            <text>
+        $('#errorContact').modal('show');
+        </text>
+        }
+    };
+
+
+</script>
+
+<!-- Put this script tag to the <head> of your page -->
+@*<script type="text/javascript" src="//vk.com/js/api/openapi.js?121"></script>*@
+
+<script type="text/javascript">
+    /*VK.init({apiId: 5220392, onlyWidgets: true});*/
+</script>
+
+
+
+<!-- Put this script tag to the <head> of your page -->
+@*<script type="text/javascript" src="http://vk.com/js/api/share.js?93" charset="windows-1251"></script>*@
+
+<!-- Put this script tag to the place, where the Share button will be -->
+<script type="text/javascript">
+
+
+</script>
+
+
+
+
+<div class="main-container">
+<div class="container">
+
+    <div class="card hoverable" style="text-align:center;width:100%;">
+    
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- ad2 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:970px;height:250px"
+     data-ad-client="ca-pub-4618877618690589"
+     data-ad-slot="4777634954"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    </div>
+    <ol class="breadcrumb pull-left">
+        <li><a href="/Index/"><i class="icon-home fa"></i></a></li>
+        <li><a href="/Category/Search/">Все объявления</a></li>
+        <li><a href="/Category/Search?category=@Model.SubCategory">@Model.CategoryName</a></li>
+
+
+        <li><a href="/Category/Search?category=@Model.SubCategory&keywords=@Model.strName">Другие варианты объявлений @Model.strName в каталогах</a></li>
+        @*<li class="active">Mobile Phones</li>*@
+
+    </ol>
+    <div onclick=" history.back(); " class="pull-right backtolist">
+        <a href="#"><i class="fa fa-angle-double-left"></i>К результатам</a>
+    </div>
+ 
+    </div>
+
+    <div class="container">
+        <div class="row">
+        <div class="col-sm-9 page-content col-thin-right">
+           
+        <div class="ads-details-wrapper card hoverable">
+            <div class="panel-heading">
+                <h2>@Html.DisplayTextFor(x => x.Name) @*<small class="label label-default adlistingtype">Company ad</small>*@</h2>
+            </div>
+            @if (@Model.ImgIds.Length > 0)
+            {
+                <text>
+                    <span class="info-row">
+                                    <span class="date"><i class=" icon-clock"> </i> @Html.DisplayTextFor(x => x.Created) </span> - <span class="category">@Html.DisplayTextFor(x => x.CategoryName) </span> - <span class="item-location"><i class="fa fa-map-marker"></i> @Html.DisplayTextFor(x => x.LocationName) </span>
+                                    
+                                </span>
+   
+                </text>
+            }
+            <div class="ads-image">
+                <h1 class="pricetag">@Html.DisplayTextFor(x => x.PriceLabel)</h1>
+                <ul class="bxslider">
+                    @foreach (var item in Model.ImgIds)
+                    {
+                        <li><img src="/Photo/Index/@item" alt="img"/></li>
+                    }
+                </ul>
+                <div id="bx-pager">
+                    @for (var i = 0; i < Model.ImgIds.Length; i++)
+                    {
+                        <a class="thumb-item-link" data-slide-index="@i" href=""><img src="/Photo/Index/@Model.ImgIds[i]" alt="img"/></a>
+                    }
+                </div>
+            </div>
+            <!--ads-image-->
+
+           
+            @if (@Model.ImgIds.Length > 0)
+            {
+                <text>
+            <div class="inner-box text-center">
+                <span class="item-location"><i class=""></i>Поделиться:</span>
+                <a class="btn-floating btn-large primary-color-dark waves-effect waves-light" onclick="Share.vkontakte('http://adv.spare-auto.com/Adv/AdvDetails/@Model.Id', '@Model.Name.Trim()', 'http://adv.spare-auto.com/Photo/Index/@Model.ImgIds[0]', '') "><i class="fa fa-vk fa-lg "></i> </a>
+                <a class="btn-floating btn-large primary-color-dark waves-light" onclick="Share.facebook('http://adv.spare-auto.com/Adv/AdvDetails/@Model.Id', '@Model.Name.Trim()', 'http://adv.spare-auto.com/Photo/Index/@Model.ImgIds[0]', '') "><i class="fa fa-facebook fa-lg "></i></a>
+                <a class="btn-floating btn-large primary-color waves-effect waves-light" onclick="Share.mailru('http://adv.spare-auto.com/Adv/AdvDetails/@Model.Id', '@Model.Name.Trim()', 'http://adv.spare-auto.com/Photo/Index/@Model.ImgIds[0]', '') ">Mail.Ru</a>
+                <a class="btn-floating btn-large warning-color waves-effect waves-light" onclick="Share.odnoklassniki('http://adv.spare-auto.com/Adv/AdvDetails/@Model.Id', '@Model.Name.Trim()', 'http://adv.spare-auto.com/Photo/Index/@Model.ImgIds[0]', '') "><i class="fa fa-odnoklassniki fa-lg"></i></a>
+                <a class="btn-floating btn-large info-color waves-effect waves-light" onclick="Share.twitter('http://adv.spare-auto.com/Adv/AdvDetails/@Model.Id', '@Model.Name.Trim()', 'http://adv.spare-auto.com/Photo/Index/@Model.ImgIds[0]', '') "><i class="fa fa-twitter fa-lg "></i></a>
+                <a class="btn-floating btn-large danger-color waves-effect waves-light" onclick="Share.googleru('http://adv.spare-auto.com/Adv/AdvDetails/@Model.Id', '@Model.Name.Trim()', 'http://adv.spare-auto.com/Photo/Index/@Model.ImgIds[0]', '') "><i class="fa fa-google fa-lg ">+</i></a>
+            </div>
+        </text>
+            }
+            <div class="Ads-Details">
+                <h5 class="list-title"><strong>Подробности объявления</strong></h5>
+                <div class="row">
+                    <div class="ads-details-info col-md-7">
+                        @Html.Raw(@Model.Description)
+
+                    </div>
+                   
+
+                    <div class="col-md-5">
+                        <aside class="card hoverable blue-grey darken-1">
+                            <span class="card-title">Сведения продавца</span>
+                            <div class="card-content white-text">
+
+                                <ul>
+                                    <li>
+                                        <p class=" no-margin ">
+                                            <strong>Цена:</strong> @Html.DisplayTextFor(x => x.PriceLabel)
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p class="no-margin">
+                                            <strong>Тип:</strong> @Html.DisplayTextFor(x => x.CategoryName)
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p class="no-margin">
+                                            <strong>Геолокация:</strong> @Html.DisplayTextFor(x => x.LocationName)
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p class="no-margin">
+                                            <strong>Район:</strong> @Html.DisplayTextFor(x => x.SellerDistrict)
+                                        </p>
+                                    </li>
+                                    <li>
+                                        <p class=" no-margin ">
+                                            <strong>Состояние:</strong> @Model.condition.GetDescription()
+                                        </p>
+                                    </li>
+                                    @if (@Model is CarAdvModel)
+                                    {
+                                        <li>
+                                            <p class="no-margin">
+                                                <strong>Пробег:</strong> @((Model as CarAdvModel).MileAge)
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p class="no-margin">
+                                                <strong>Год выпуска:</strong> @((Model as CarAdvModel).Year)
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p class="no-margin">
+                                                <strong>Растаможен:</strong> @((Model as CarAdvModel).customs == 1 ? "ДА" : "НЕТ")
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p class="no-margin">
+                                                <strong>Гарантия:</strong> @((Model as CarAdvModel).guarantee ? "ДА" : "НЕТ")
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p class="no-margin">
+                                                <strong>VIN:</strong> @(string.IsNullOrEmpty((Model as CarAdvModel).VIN) ? "Не указан" : (Model as CarAdvModel).VIN)
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p class="no-margin">
+                                                <strong>ПТС:</strong> @((Model as CarAdvModel).PTS == "1" ? "Оригинал" : "Дубликат")
+                                            </p>
+                                        </li>
+
+                                        <br>
+                                    }
+                                </ul>
+                            </div>
+                        </aside>
+
+                        <div class="ads-action">
+                            <ul class="list-border">
+                                <li><a href="#"> <i class=" fa fa-user"></i>Объявления этого продавца </a> </li>
+                                <li><a onclick=" refreshedSaved(this, @Model.Id); " href="#"> <i class=" fa fa-heart"></i>Сохранить объявление</a> </li>
+                                <li><a href="#"> <i class="fa fa-share-alt"></i>Забрать на внешний сайт</a> </li>
+                                <li><a href="#reportAdvertiser" data-toggle="modal"> <i class="fa icon-info-circled-alt"></i>Пожаловаться</a> </li>
+                            </ul>
+                        </div>
+                    </div>
+                   
+                </div>
+                <div class="content-footer text-left">
+                    <a class="btn btn-default" data-toggle="modal" href="#contactAdvertiser"><i class=" icon-mail-2"></i>Отправить сообщение</a> <a class="btn  btn-info"><i class=" icon-phone-1"></i>@Model.SellerPhone</a>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        @*           <div class="inner-box relative">
+                <div id="vk_comments"></div>
+                <script type="text/javascript">
+                    VK.Widgets.Comments("vk_comments", {limit: 10, width: "665", attach: "*"});
+                </script>
+            </div>*@
+
+        <div class="relative card hoverable">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- ad1 -->
+            <ins class="adsbygoogle"
+                 style="display: block"
+                 data-ad-client="ca-pub-4618877618690589"
+                 data-ad-slot="9347435357"
+                 data-ad-format="auto"></ins>
+            <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+            @if (Model._simalarList != null && Model._simalarList.Count() > 0)
+            {
+                <text>
+                    <div class="card hoverable">
+                        <div class="panel-heading">
+                            <h2 class="title-2">
+
+                                Похожие
+                                @*<a id="nextItem1" class="link pull-right carousel-nav"> <i class="icon-right-open-big"></i></a>
+                            <a id="prevItem1" class="link pull-right carousel-nav"> <i class="icon-left-open-big"></i> </a>*@
+                            </h2>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="no-margin item-carousel owl-carousel owl-theme">
+                                    @foreach (var item in Model._simalarList)
+                                    {
+                                        <div class="item">
+                                            <a href="@item.adsurl">
+                                                <span class="item-carousel-thumb">
+                                                    <img class="img-responsive" src="@item.firstphoto" alt="img">
+                                                </span>
+                                                <span class="item-name">@item.Name</span>
+                                                <span class="price">@item.PriceLabel</span>
+                                            </a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </text>
+            }
+
+
+        <div class="card hoverable">
+            <div class="panel-heading">
+                <h2 class="title-2">
+                    ПРОДВИГАЕМЫЕ ОБЪЯВЛЕНИЯ <i class="pull-right"><a href="/Home/FAQ">(Как сюда попасть?)</a></i>
+                    <a id="nextItem" class="link pull-right carousel-nav"> <i class="icon-right-open-big"></i></a>
+                    <a id="prevItem" class="link pull-right carousel-nav"> <i class="icon-left-open-big"></i> </a>
+                </h2>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="no-margin item-carousel owl-carousel owl-theme">
+                        @foreach (var item in Model._featuredList)
+                        {
+                            <div class="item">
+                                <a href="@item.adsurl">
+                                    <span class="item-carousel-thumb">
+                                                <img class="img-responsive" src="@item.firstphoto" alt="img">
+                                            </span>
+                                    <span class="item-name">@item.Name</span>
+                                    <span class="item-location">@item.LocationName</span>
+                                    <span class="price">@item.PriceLabel</span>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Put this div tag to the place, where the Comments block will be -->
+        @*     <!--/.ads-details-wrapper-->
+            <div class="inner-box relative">
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <!-- adv large long box -->
+                <ins class="adsbygoogle"
+                     style="display: block"
+                     data-ad-client="ca-pub-9707096941681181"
+                     data-ad-slot="8754484356"
+                     data-ad-format="auto"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+
+            </div>*@
+
+        </div>
+
+            <!--/.page-content-->
+
+
+            <div class="col-sm-3  page-sidebar-right">
+                <aside>
+                    <div class="panel sidebar-panel panel-contact-seller  card hoverable">
+                        @if (@Model.SubCategory == 96)
+                        {
+                            <text>
+                                <div class="panel-heading">Связаться с соискателем</div>
+                            </text>
+                        }
+                        else if ((new List<int>() { 19, 20, 21, 22, 23 }).Contains(@Model.SubCategory))
+                        {
+                            <text>
+                                <div class="panel-heading">Связаться с работодателем</div>
+                            </text>
+                        }
+                        else
+                        {   <text>
+                            <div class="panel-heading">Связаться с продавцом</div>
+                        </text>
+                        }
+                        <div class="panel-content user-info">
+                            <div class="panel-body text-center">
+                                <div class="seller-info">
+                                    <h3 class="no-margin">@Model.SellerName</h3>
+                                    <p>
+                                        Геолокация: <strong>@Model.LocationName</strong>
+                                    </p>
+                                    <p>
+                                        Регистрация: <strong>@(Model.CurrentUser != null ? Model.CurrentUser.Created.ToString() : "Не зарегистрирован") </strong>
+                                    </p>
+                                </div>
+                                <div class="user-ads-action">
+                                    <a href="#contactAdvertiser" data-toggle="modal" class="btn   btn-default btn-block"><i class=" icon-mail-2"></i>сообщение</a> <a class="btn  btn-info btn-block"><i class=" icon-phone-1"></i>@Model.SellerPhone</a>
+                                    Удобно начать диалог с фразы, что нашли объявление на adv.spare-auto.com
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     
+                    <div class="panel sidebar-panel  card hoverable">
+                        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- ad1 -->
+                        <ins class="adsbygoogle"
+                             style="display: block"
+                             data-ad-client="ca-pub-4618877618690589"
+                             data-ad-slot="9347435357"
+                             data-ad-format="auto"></ins>
+                        <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+
+                    @*   <div class="panel panel-body panel-details">
+                    <ul>
+                        @#1#if (@Model is CarAdvModel)
+                        {
+                            <h3>Справка от Spare-Auto.com</h3>
+                        }#1#
+                    </ul>
+
+                    <div id="CarDescription">
+
+                    </div>
+                </div>*@
+
+
+
+
+
+                    @if (Model.next != null)
+                    {
+                        <text>
+                    <div class="inner-box relative  card hoverable">
+                        <h3>Следующее объявление</h3>
+
+                        <div class="item-carousel owl-theme">
+                            <div class="item">
+                                <a href="@Model.next.adsurl">
+                                    <span class="item-carousel-thumb">
+                                        <img class="img-responsive" src="@Model.next.firstphoto" alt="img">
+                                    </span>
+                                    <span class="item-name">@Model.next.Name</span>
+                                    <span class="price">@Model.next.PriceLabel</span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                        </text>
+                    }
+
+
+
+
+
+                    @if (Model.previous != null)
+{
+    <div class="inner-box relative  card hoverable">
+        <h3>Предыдущее объявление</h3>
+        <div class="item-carousel owl-theme">
+            <div class="item">
+                <a href="@Model.previous.adsurl">
+                    <span class="item-carousel-thumb">
+                        <img class="img-responsive" src="@Model.previous.firstphoto" alt="img">
+                    </span>
+                    <span class="item-name">@Model.previous.Name</span>
+                    <span class="price">@Model.previous.PriceLabel</span>
+                </a>
+            </div>
+        </div>
+    </div>
+}
+
+
+                    <div class="panel sidebar-panel  card hoverable">
+                        <div class="panel-heading">Советы безопасной покупки</div>
+                        <div class="panel-content">
+                            <div class="panel-body text-left">
+                                <ul class="list-check">
+                                    <li>Встречайтесь в общественном месте</li>
+                                    <li>Хорошо проверьте вешь перед покупкой</li>
+                                    <li>Платите после того как взяли вещь</li>
+                                    <li>Внимание! Если автор объявления просит вас отправить SMS на короткий номер или перейти по ссылке на сайт, возможно вы имеете дело с мошенничеством!</li>
+                                </ul>
+                                <p>
+                                    <a class="pull-right" href="/Adv/CarAdvTips">Подробнее...<i class="fa fa-angle-double-right"></i> </a>
+                                </p>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+               
+
+                    <!--/.categories-list-->
+                </aside>
+            </div>
+            <!--/.page-side-bar-->
+        </div>
+    </div>
+</div>
+
+<!-- /.          main - container -- >
+
+<!-- /.wrapper -->
+<!-- Modal contactAdvertiser -->
+
+<div class="modal fade" id="reportAdvertiser" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title"><i class="fa icon-info-circled-alt"></i> Что не так с этим объявлением? </h4>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="report-reason" class="control-label">Причина:</label>
+                        <select name="report-reason" id="report-reason" class="form-control">
+                            <option value="">Выберите причину:</option>
+                            <option value="soldUnavailable">Нет в наличии</option>
+                            <option value="fraud">Мошенничество</option>
+                            <option value="duplicate">Задвоено</option>
+                            <option value="spam">Спам</option>
+                            <option value="wrongCategory">Неправильная категория</option>
+                            <option value="other">Другое</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-email" class="control-label">Ваш E-mail:</label>
+                        <input type="text" name="email" maxlength="60" class="form-control" id="recipient-email">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text2" class="control-label">Сообщение <span class="text-count">(300) </span>:</label>
+                        <textarea class="form-control" id="message-text2"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                <button type="button" onclick="sendAbuseMessage();" class="btn btn-primary">Отправить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /.modal -->
+<!-- Modal contactAdvertiser -->
+
+<div class="modal fade" id="contactAdvertiser" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title"><i class=" icon-mail-2"></i>Связаться с продавцом</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">Имя:</label>
+                        <input class="form-control required" id="recipient-name" placeholder="Ваше имя" data-placement="top" data-trigger="manual" data-content="Must be at least 3 characters long, and must only contain letters." type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="sender-email" class="control-label">Почта:</label>
+                        <input id="sender-email" type="text" data-content="Must be a valid e-mail address (user@gmail.com)" data-trigger="manual" data-placement="top" placeholder="email@you.com" class="form-control email">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-Phone-Number" class="control-label">Телефон:</label>
+                        <input type="text" maxlength="60" class="form-control" id="recipient-Phone-Number">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="control-label">Сообщение<span class="text-count">(300) </span>:</label>
+                        <textarea class="form-control" id="message-text" placeholder="Ваш текст..." data-placement="top" data-trigger="manual"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <p class="help-block pull-left text-danger hide" id="form-error">&nbsp; The form is not valid. </p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                <button type="submit" onclick=" sendMessage(); " class="btn btn-success pull-right">Отправить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="errorContact" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title"><i class=" icon-mail-2"></i>Ошибка</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    Вы не можете отправить сообщение продавцом так как он не зарегистрирован, посмотрите другие контакты на странице объявления
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-3 reg-sidebar">
+    <div class="reg-sidebar-inner text-center">
+
+    </div>
+</div><!--/.reg-sidebar-->
+<div class="no-margin item-carousel owl-carousel owl-theme">
+
+</div>

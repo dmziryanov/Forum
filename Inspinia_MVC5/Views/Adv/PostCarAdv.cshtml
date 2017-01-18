@@ -1,0 +1,612 @@
+﻿@model DAL.AdvModel
+<script type="text/javascript" src="/Scripts/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="/assets/js/fileinput.js"></script>
+<script>
+    $(document).ready(function () {
+        filterCountry = function (id) {
+            $('#Location option').attr('style', 'visibility:hidden; display:none;');
+            $('[countryid="' + id + '"').attr('style', 'visibility:visible; display:block;');
+        }
+
+        $("#Manufacturer").load("/Car/Brand/");
+
+        LoadModels = function (id) {
+            $("#showload").attr('style', 'visibility:visible; display: block;');
+            $("#modeldiv").html("");
+            $("#CarType").html("");
+            //$("#CarDescription").html("");
+            $("#modeldiv").load("/Car/Model/" + id).success($("#showload").hide());
+
+        }
+
+        LoadTypes = function (id) {
+            $("#showload").attr('style', 'visibility:visible; display: block;');
+            $("#CarType").html("");
+            $("#CarDescription").html("");
+            //$("#CarType").load("/Car/CarType/" + id).success($("#showload").hide());;
+
+        }
+
+        LoadDescription = function (id) {
+            $("#showload").attr('style', 'visibility:visible; display: block;');
+            $("#CarDescription").html("");
+            //$("#CarDescription").load("/Car/CarDescription/" + id).success($("#showload").hide());;
+
+        }
+
+        filterCountry(643); //Russia
+    });
+
+</script>
+
+<div id="wrapper">
+
+    <div class="main-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 page-content">
+                    <div class="inner-box relative">
+                        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- ad1 -->
+            <ins class="adsbygoogle"
+                 style="display: block"
+                 data-ad-client="ca-pub-4618877618690589"
+                 data-ad-slot="9347435357"
+                 data-ad-format="auto"></ins>
+            <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+
+                    </div>
+
+
+
+                    <div class="inner-box category-content">
+                        <h2 class="title-2 uppercase">
+                            <strong> <i class="icon-docs"></i>Добавление объявления</strong>
+                        </h2>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @using (Html.BeginForm("CreateCarAdv", "Adv", FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data" }))
+                                {
+                                    @Html.ValidationSummary(true)
+                                    <fieldset>
+
+
+                                        <div id="Manufacturer">
+
+                                        </div>
+
+
+                                        <div id="modeldiv">
+
+                                        </div>
+
+                                        <div id="CarType">
+
+                                        </div>
+
+                                        <div style="display: none" id="showload">
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="Adtitle">Загрузка...</label>
+                                                <div class="col-md-8">
+                                                    <img src="http://statwebaz.com/templates/default/assets/img/process.gif" />
+                                                    @*<span class="help-block">Пробег</span>*@
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="Adtitle"></label>
+                                            <div class="col-md-8">
+
+                                                <div id="CarDescription">
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="Adtitle">Пробег</label>
+                                            <div class="col-md-8">
+                                                <input id="mileAge" name="mileAge" placeholder="Пробег, км" class="form-control input-md" required="" type="text">
+                                                @*<span class="help-block">Пробег</span>*@
+                                            </div>
+                                        </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="Adtitle">Год выпуска</label>
+                                        <div class="col-md-8">
+                                            <input id="Year" name="Year" placeholder="год" class="form-control input-md" required="" type="text">
+                                            @*<span class="help-block">Пробег</span>*@
+                                        </div>
+                                    </div>
+
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="Adtitle">Объем двигателя</label>
+                                            <div class="col-md-8">
+                                                <input id="displacement" name="displacement" placeholder="1" class="form-control input-md" required="" type="text">
+                                                <span class="help-block">1000 см<sup>3</sup></span>
+                                            </div>
+                                        </div>
+
+
+                                    <!-- Multiple Radios (inline) -->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Таможня</label>
+                                            <div class="col-md-8">
+                                                <label class="radio-inline" for="radios-0">
+                                                    <input name="customs" id="customs" value="1" checked="checked" type="radio">
+                                                    Растаможен
+                                                </label>
+                                                <label class="radio-inline" for="radios-1">
+                                                    <input name="customs" id="customs" value="0" type="radio">
+                                                    Нерастаможен
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Appended checkbox -->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="seller-email">На гарантии</label>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" id="guarantee" name="guarantee" value="true">
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">ПТС</label>
+                                            <div class="col-md-8">
+                                                <label class="radio-inline" for="radios-0">
+                                                    <input name="PTS" id="PTS" value="1" checked="checked" type="radio">
+                                                    Оригинал
+                                                </label>
+                                                <label class="radio-inline" for="radios-1">
+                                                    <input name="PTS" id="PTS" value="0" type="radio">
+                                                    Дубликат
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="Adtitle">VIN</label>
+                                            <div class="col-md-8">
+                                                <input id="VIN" name="VIN" placeholder="1234567890ABCDEFG" class="form-control input-md" type="text">
+                                                <span class="help-block">Уникальный идентификационый номер автомобиля (опционально)</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Multiple Radios (inline) -->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Тип</label>
+                                            <div class="col-md-8">
+                                                <label class="radio-inline" for="radios-0">
+                                                    <input name="type" id="@Html.IdFor(x => x.type)" value="2" checked="checked" type="radio">
+                                                    Частное
+                                                </label>
+                                                <label class="radio-inline" for="radios-1">
+                                                    <input name="type" id="@Html.IdFor(x => x.type)" value="1" type="radio">
+                                                    Бизнес
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Состояние</label>
+                                            <div class="col-md-8">
+                                                <label class="radio-inline" for="radios-2">
+                                                    <input name="condition" id="condition" value="2" checked="checked" type="radio">
+                                                    Новое
+                                                </label>
+                                                <label class="radio-inline" for="radios-3">
+                                                    <input name="condition" id="condition" value="1" type="radio">
+                                                    Хорошее
+                                                </label>
+                                                <label class="radio-inline" for="radios-3">
+                                                    <input name="condition" id="condition" value="1" type="radio">
+                                                    Удовлетворительное
+                                                </label>
+                                                <label class="radio-inline" for="radios-2">
+                                                    <input name="condition" id="condition" value="3" type="radio">
+                                                    Битый
+                                                </label>
+                                                <label class="radio-inline" for="radios-2">
+                                                    <input name="condition" id="condition" value="4" type="radio">
+                                                    Не на ходу
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Textarea -->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="textarea">Описание</label>
+                                            <div class="col-md-8">
+                                                <textarea class="form-control" id="Description" placeholder="Напишите что делает ваше предложение уникальным" name="Description"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <!-- Prepended text-->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="Price">Цена</label>
+                                            <div class="col-md-5">
+                                                @Html.Partial("CurrencyControl", Model)
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox">
+                                                        Торг
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- photo -->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="textarea"> Изображения </label>
+                                            <div class="col-md-8">
+                                                <div class="mb10">
+                                                    <input id="input-upload-img1" name="input-upload-img1" type="file" class="file" data-preview-file-type="text">
+                                                </div>
+                                                <div class="mb10">
+                                                    <input id="input-upload-img2" name="input-upload-img2" type="file" class="file" data-preview-file-type="text">
+                                                </div>
+                                                <div class="mb10">
+                                                    <input id="input-upload-img3" name="input-upload-img3" type="file" class="file" data-preview-file-type="text">
+                                                </div>
+                                                <div class="mb10">
+                                                    <input id="input-upload-img4" name="input-upload-img4" type="file" class="file" data-preview-file-type="text">
+                                                </div>
+                                                <div class="mb10">
+                                                    <input id="input-upload-img5" name="input-upload-img5" type="file" class="file" data-preview-file-type="text">
+                                                </div>
+                                                <p class="help-block">Добавьте до 5 фотографий. Используйте реальные изображения, а не каталожные.</p>
+                                            </div>
+                                        </div>
+                                        <table width="100%">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <h3>Безопасность</h3><label><input type="checkbox" name="opt1" value="1"> Многофункциональный руль</label><br>
+                                                        <label><input type="checkbox" name="opt2" value="1"> Противотуманные фары</label><br>
+                                                        <label><input type="checkbox" name="opt3" value="1"> Ксеноновые фары</label><br>
+                                                        <label><input type="checkbox" name="opt4" value="1"> Противоугонная сигнализация</label><br>
+                                                        <label><input type="checkbox" name="opt5" value="1"> Противоугонное устройство</label><br>
+                                                        <label><input type="checkbox" name="opt6" value="1"> Омыватель фар</label><br>
+                                                        <label><input type="checkbox" name="opt7" value="1"> Датчик света</label><br>
+                                                        <label><input type="checkbox" name="opt8" value="1"> Датчик дождя</label><br>
+                                                        <label><input type="checkbox" name="opt9" value="1"> Датчик парковки</label><br>
+                                                        <label><input type="checkbox" name="opt10" value="1"> Антиблокировочная тормозная система (ABS)</label><br>
+                                                        <label><input type="checkbox" name="opt11" value="1"> Боковые подушки безопасности</label><br>
+                                                        <label><input type="checkbox" name="opt12" value="1"> Подушка безопасности пассажира</label><br>
+                                                        <label><input type="checkbox" name="opt13" value="1"> Подушка безопасности водителя</label><br>
+                                                        <label><input type="checkbox" name="opt14" value="1"> Система стабилизации (ESP, DSC, VDC, ESC)</label><br>
+                                                        <label><input type="checkbox" name="opt15" value="1"> Легкосплавные колесные диски</label><br>
+                                                        <label><input type="checkbox" name="opt16" value="1"> Стальные колесные диски</label><br>
+                                                        <label><input type="checkbox" name="opt17" value="1"> Шторки безопасности</label><br>
+                                                        <label><input type="checkbox" name="opt18" value="1"> Антипробуксовочная система (TCS, ASR, TRC)</label><br>
+                                                        <label><input type="checkbox" name="opt19" value="1"> Всесезонные шины</label><br>
+                                                        <label><input type="checkbox" name="opt20" value="1"> Зимние шины</label><br>
+                                                        <label><input type="checkbox" name="opt21" value="1"> Летние шины</label><br>
+                                                    </td>
+                                                    <td>
+                                                        <h3>Комфорт</h3><label><input type="checkbox" name="opt22" value="1"> Аудиосистема</label><br>
+                                                        <label><input type="checkbox" name="opt23" value="1"> Тонированные стекла</label><br>
+                                                        <label><input type="checkbox" name="opt24" value="1"> Навигационная система TVD / DVD система</label><br>
+                                                        <label><input type="checkbox" name="opt25" value="1"> Бортовой компьютер</label><br>
+                                                        <label><input type="checkbox" name="opt26" value="1"> Обивка салона ткань</label><br>
+                                                        <label><input type="checkbox" name="opt27" value="1"> Велюровый салон</label><br>
+                                                        <label><input type="checkbox" name="opt28" value="1"> Кожаный салон</label><br>
+                                                        <label><input type="checkbox" name="opt29" value="1"> Круиз-контроль</label><br>
+                                                        <label><input type="checkbox" name="opt30" value="1"> Центральный замок</label><br>
+                                                        <label><input type="checkbox" name="opt31" value="1"> Подогрев боковых зеркал</label><br>
+                                                        <label><input type="checkbox" name="opt32" value="1"> Подогрев передних сидений</label><br>
+                                                        <label><input type="checkbox" name="opt33" value="1"> Электрорегулировка пассажирского сиденья</label><br>
+                                                        <label><input type="checkbox" name="opt34" value="1"> Электрорегулировка водительского сиденья</label><br>
+                                                        <label><input type="checkbox" name="opt35" value="1"> Электрорегулировка боковых зеркал</label><br>
+                                                        <label><input type="checkbox" name="opt36" value="1"> Электростеклоподъемники</label><br>
+                                                        <label><input type="checkbox" name="opt37" value="1"> Люк</label><br>
+                                                        <label><input type="checkbox" name="opt38" value="1"> Регулируемая по вылету рулевая колонка</label><br>
+                                                        <label><input type="checkbox" name="opt39" value="1"> Регулируемая по высоте рулевая колонка</label><br>
+                                                        <label><input type="checkbox" name="opt40" value="1"> Усилитель руля</label><br>
+                                                        <label><input type="checkbox" name="opt41" value="1"> Климат-контроль</label><br>
+                                                        <label><input type="checkbox" name="opt42" value="1"> Кондиционер</label><br>
+                                                    </td>
+                                                </tr>
+                                                <tr></tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="content-subheading">
+                                            <i class="icon-user fa"></i> <strong>Информация о продавце</strong>
+                                        </div>
+                                        @if (!Request.IsAuthenticated)
+                                        {
+                                            <h3>
+                                                Вы не авторизованы @Html.ActionLink("Войдите", "Login", "Account") или
+                                                @Html.ActionLink("Зарегистрируйтесь", "Register", "Account"), если у вас нет логина для более удобного сервиса.
+                                            </h3>
+                                        }
+
+                                        <input style="visibility: hidden" id="SellerName" name="SellerId" id="SellerId" placeholder="Имя продавца" class="form-control input-md" required="" value="@Model.CurrentUser.UserId" type="text">
+
+                                        <!-- Text input-->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="textinput-name">Имя</label>
+                                            <div class="col-md-8">
+                                                <input id="SellerName" name="SellerName" placeholder="Имя продавца" class="form-control input-md" required="" value="@Model.CurrentUser.FirstName @Model.CurrentUser.LastName" type="text">
+                                            </div>
+                                        </div>
+
+                                        <!-- Appended checkbox -->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="seller-email">Почта</label>
+                                            <div class="col-md-8">
+                                                <input id="SellerEmail" name="SellerEmail" class="form-control" placeholder="Почта" value="@Model.CurrentUser.UserName" required="" type="text">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="">
+                                                        <small>Номер телефона скрывается, пока покупатель не откроет его кликом</small>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Text input-->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="seller-Number">Телефон</label>
+                                            <div class="col-md-8">
+                                                <input id="SellerPhone" name="SellerPhone" placeholder="Телефон" class="form-control input-md" required="" value="@Model.CurrentUser.Phone" type="text">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="seller-Location">Страна</label>
+                                            <div class="col-md-8">
+                                                <select onchange=" filterCountry(this.value); " id="Country" name="Country" class="form-control">
+                                                   
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Select Basic -->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="seller-Location">Город</label>
+                                            <div class="col-md-8">
+                                                <select id="Location" name="Location" class="form-control">
+                                                   
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Select Basic -->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="seller-area">Район</label>
+                                            <div class="col-md-8">
+                                                <input id="District" name="District" placeholder="район" class="form-control input-md" required="" type="text">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="well">
+                                            <h3>
+                                                <i class=" icon-certificate icon-color-1"></i>Сделайте ваше объявление премиум
+                                            </h3>
+                                            <p>
+                                                Премиум-объявления помогают продавать быстрее <a href="/Adv/help">Узнать больше</a>
+                                            </p>
+                                            <div class="form-group">
+                                                <table class="table table-hover checkboxtable">
+                                                    <tr>
+                                                        <td>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input onclick=" $('.pay').attr('style', 'visibility:hidden'); $('#publish').attr('style', 'visibility:visible'); " value="1" type="radio" name="IsFeatured" id="IsFeatured" value="option0" checked>
+                                                                    <strong>Обычное объявление </strong>
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <p>бесплатно</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input onclick=" $('.pay').attr('style', 'visibility:visible'); $('#publish').attr('style', 'visibility:hidden'); " value="2" type="radio" name="IsFeatured" id="IsFeatured" value="option1">
+                                                                    <strong>Срочное</strong>
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <p>10.00 р.</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input onclick=" $('.pay').attr('style', 'visibility:visible'); $('#publish').attr('style', 'visibility:hidden'); " value=" 3" type="radio" name="IsFeatured" id="IsFeatured" value="option2">
+                                                                    <strong>Вверху списка </strong>
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <p>20.00 р.</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input onclick=" $('.pay').attr('style', 'visibility:visible'); $('#publish').attr('style', 'visibility:hidden'); " value="4" type="radio" name="IsFeatured" id="IsFeatured" value="option3">
+                                                                    <strong>Продвигаемое </strong>
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <p>40.00 р.</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="pay" style="visibility: hidden;">
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <div class="col-md-8">
+                                                                    <select class="form-control" name="Method" id="PaymentMethod">
+                                                                        @*                                                                        <option value="2">Метод оплаты</option>*@
+                                                                        <option value="5">Paypal</option>
+                                                                    </select>
+
+
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="col-md-8">
+                                                                <a target="_blank" onclick=" $('#publish').attr('style', 'visibility:visible'); " class="fa fa-paypal btn btn-primary small" href="https://paypal.me/DZyryanov">Оплатить</a>
+
+                                                            </div>
+
+                                                        </td>
+
+                                                        @*<td><p> <strong>Payable Amount : $40.00</strong></p></td>*@
+                                                    </tr>
+                                                    <tr class="pay" style="visibility: hidden;"><td>(в наименовании платежа укажите название объявления. Неоплаченные объявления будут удаляться. Внимательно проверьте валюту платежа!)</td></tr>
+                                                </table>
+                                                <div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- terms -->
+                                        <div class="form-group">
+
+                                            <div class="col-md-8">
+                                                <label class="checkbox-inline" for="checkboxes-0">
+                                                    <input name="checkboxes" id="checkboxes-0" value="Remember above contact information." type="checkbox">
+                                                    Запомнить информацию.
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Button -->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label"></label>
+
+
+                                            <div class="col-md-8">
+                                                <input id="publish" class="btn btn-primary btn-lg" type="submit" value="Опубликовать" />
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inner-box relative">
+                        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- ad1 -->
+            <ins class="adsbygoogle"
+                 style="display: block"
+                 data-ad-client="ca-pub-4618877618690589"
+                 data-ad-slot="9347435357"
+                 data-ad-format="auto"></ins>
+            <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+                    </div>
+
+                </div>
+                <!-- /.page-content -->
+
+                <div class="col-md-3 reg-sidebar">
+                    <div class="reg-sidebar-inner text-center">
+                        <div class="promo-text-box">
+                            <i class=" icon-picture fa fa-4x icon-color-1"></i>
+                            <h3>
+                                <strong>Размещайте объявления</strong>
+                            </h3>
+                            <p> У нас один из самых удобных сервисов для поиска и размещения объявлений в рунете. </p>
+                        </div>
+
+                        <div class="panel sidebar-panel">
+                            <div class="panel-heading uppercase">
+                                <small><strong>Как продать быстрее?</strong></small>
+                            </div>
+                            <div class="panel-content">
+                                <div class="panel-body text-left">
+                                    <ul class="list-check">
+                                        <li> Придумайте короткое и емкое описание и заголовок </li>
+                                        <li> Убедитесь что категория товара выбрана правильно</li>
+                                        <li> Добавьте качественные фото</li>
+                                        <li> Укажите рыночную цену</li>
+                                        <li> Проверьте объявление перед публикацией</li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="inner-box no-padding">
+                           <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- ad1 -->
+            <ins class="adsbygoogle"
+                 style="display: block"
+                 data-ad-client="ca-pub-4618877618690589"
+                 data-ad-slot="9347435357"
+                 data-ad-format="auto"></ins>
+            <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+                        </div>
+
+                        @*  <div class="inner-box no-padding">
+                                <div class="inner-box-content">
+                                    <a href="#">
+                                        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                        <!-- adv box -->
+                                        <ins class="adsbygoogle"
+                                             style="display:inline-block;width:300px;height:250px"
+                                             data-ad-client="ca-pub-9707096941681181"
+                                             data-ad-slot="4324284756"></ins>
+                                        <script>
+                                            (adsbygoogle = window.adsbygoogle || []).push({});
+                                        </script>
+                                    </a>
+
+                                </div>
+                            </div>*@
+
+                    </div>
+                </div><!--/.reg-sidebar-->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /.main-container -->
+    <!--/.footer-->
+</div>
+<!-- /.wrapper -->
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<!-- include jquery file upload plugin  -->
+
+<script>
+    // initialize with defaults
+    $("#input-upload-img1").fileinput();
+    $("#input-upload-img2").fileinput();
+    $("#input-upload-img3").fileinput();
+    $("#input-upload-img4").fileinput();
+    $("#input-upload-img5").fileinput();
+</script>
+
+

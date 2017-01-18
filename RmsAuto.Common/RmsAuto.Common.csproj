@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7A551067-3165-433E-BDD0-F798EEEE3930}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RmsAuto.Common</RootNamespace>
+    <AssemblyName>RmsAuto.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Annotations">
+      <HintPath>bin\Debug\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel.Web">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.DynamicData">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Routing">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Caching\IKeyedEntities.cs" />
+    <Compile Include="Caching\KeyedEntityCache.cs" />
+    <Compile Include="Caching\SingleObjectCache.cs" />
+    <Compile Include="Configuration\ConfigurationBase.cs" />
+    <Compile Include="Configuration\ReferenceCacheConfiguration.cs" />
+    <Compile Include="DataAnnotations\CrudActions.cs" />
+    <Compile Include="DataAnnotations\CrudAttribute.cs" />
+    <Compile Include="DataAnnotations\FieldGenerator.cs" />
+    <Compile Include="DataAnnotations\PositiveAttribute.cs" />
+    <Compile Include="DataAnnotations\SortAttribute.cs" />
+    <Compile Include="DataAnnotations\StateContainerStorageType.cs" />
+    <Compile Include="DataAnnotations\StaticFilterAttribute.cs" />
+    <Compile Include="Data\ConnectionStringAttribute.cs" />
+    <Compile Include="Data\DataContextFactory.cs" />
+    <Compile Include="Data\ManualTxHelper.cs" />
+    <Compile Include="Data\Serializer.cs" />
+    <Compile Include="Data\SortField.cs" />
+    <Compile Include="Data\SparePartKey.cs" />
+    <Compile Include="Data\XMLExcel.cs" />
+    <Compile Include="Diagnostics\CacheLocation.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Diagnostics\CacheMgmt.cs" />
+    <Compile Include="Diagnostics\CacheMgmtService.cs" />
+    <Compile Include="Diagnostics\CacheStatistics.cs" />
+    <Compile Include="Diagnostics\ICacheMgmtService.cs" />
+    <Compile Include="Diagnostics\IMgmtTarget.cs" />
+    <Compile Include="Diagnostics\Trace.cs" />
+    <Compile Include="Diagnostics\TraceItem.cs" />
+    <Compile Include="Diagnostics\TracingQueue.cs" />
+    <Compile Include="Linq\DynamicSorting.cs" />
+    <Compile Include="Misc\AltNameAttribute.cs" />
+    <Compile Include="Misc\IXmlSerializableExt.cs" />
+    <Compile Include="Misc\LinqExtensions.cs" />
+    <Compile Include="Misc\MiscExtensions.cs" />
+    <Compile Include="Misc\SecUtil.cs" />
+    <Compile Include="Misc\SimpleTypesExtensions.cs" />
+    <Compile Include="Net\TimedWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="References\IReference.cs" />
+    <Compile Include="References\Reference.cs" />
+    <Compile Include="References\ReferenceItem.cs" />
+    <Compile Include="Web\ContainerEventArgs.cs" />
+    <Compile Include="Web\ControlExtensions.cs" />
+    <Compile Include="Web\HttpHandlers\CaptureImageHandler.cs" />
+    <Compile Include="Web\HttpHandlers\QtyInStockImageHandler.cs" />
+    <Compile Include="Web\UI\CaptureImage.cs" />
+    <Compile Include="Misc\DebuggerWriter.cs" />
+    <Compile Include="Misc\EnumHelpers.cs" />
+    <Compile Include="Misc\CollectionExtensions.cs" />
+    <Compile Include="Misc\StringExtensions.cs" />
+    <Compile Include="Linq\PredicateBuilder.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Misc\TextAttribute.cs" />
+    <Compile Include="Web\CrudTracker.cs" />
+    <Compile Include="Web\State\ActionMode.cs" />
+    <Compile Include="Web\State\StateContainer.cs" />
+    <Compile Include="Web\State\StateItem.cs" />
+    <Compile Include="Web\State\StateTracker.cs" />
+    <Compile Include="Web\StaticParameter.cs" />
+    <Compile Include="Web\UI\QtyImage.cs" />
+    <Compile Include="Web\UI\ExtendedListView.cs" />
+    <Compile Include="Web\UI\ExtendedCommandField.cs" />
+    <Compile Include="Web\UI\Comment.cs" />
+    <Compile Include="Web\UI\SortOption.cs" />
+    <Compile Include="Web\UI\SortOptions.cs" />
+    <Compile Include="Web\UI\ThreeState.cs" />
+    <Compile Include="Web\UrlKeys.cs" />
+    <Compile Include="Web\UrlState\IPageUrlState.cs" />
+    <Compile Include="Web\UrlState\UrlStateContainer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\XMLExcelStyle.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Web\HttpModules\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

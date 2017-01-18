@@ -1,0 +1,338 @@
+﻿@model DAL.AdvModel
+
+
+
+<div id="wrapper">
+
+    <div class="main-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 page-content">
+                    <div class="inner-box category-content">
+                        <h2 class="title-2 uppercase">
+                            <strong> <i class="icon-docs"></i>Редактирование объявления</strong>
+                        </h2>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @using (Html.BeginForm("SaveAdv", "Adv", new {Id = @Model.Id}, FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data" }))
+                                {
+                                    @Html.ValidationSummary(true)
+
+                                    <fieldset>
+                                        <!-- Select Basic -->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Категория</label>
+                                            <div class="col-md-8">
+                                                @Html.ValidationMessageFor(m => m.Category)
+                                                <select id="@Html.IdFor(x => x.Category)" name="Category" class="form-control">
+                                                    <option value="0" selected="selected" disabled="disabled">Выберите... </option>
+                                                    @foreach (var item in Model._categories)
+                                                    {
+                                                        <option value="@item.ID" style="background-color: #E9E9E9; font-weight: bold;" disabled="disabled"> - @item.Name - </option>
+
+                                                        foreach (var subitem in Model._subCategories.Where(x => x.Category_Id == item.ID))
+                                                        {
+                                                            <option value="@subitem.ID">@subitem.Name</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Multiple Radios (inline) -->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Тип</label>
+                                            <div class="col-md-8">
+                                                <label class="radio-inline" for="radios-0">
+                                                    <input name="type" id="@Html.IdFor(x => x.type)" value="2" checked="checked" type="radio">
+                                                    Частное
+                                                </label>
+                                                <label class="radio-inline" for="radios-1">
+                                                    <input name="type" id="@Html.IdFor(x => x.type)" value="1" type="radio">
+                                                    Бизнес
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">Состояние</label>
+                                            <div class="col-md-8">
+                                                <label class="radio-inline" for="radios-2">
+                                                    <input name="condition" id="condition" value="2" checked="checked" type="radio">
+                                                    Новое
+                                                </label>
+                                                <label class="radio-inline" for="radios-3">
+                                                    <input name="condition" id="condition" value="1" type="radio">
+                                                    Б/У
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Text input-->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="Adtitle">Заголовок</label>
+                                            <div class="col-md-8">
+                                                <input id="Name" name="Name" placeholder="Заголовок" class="form-control input-md" required="" type="text">
+                                                <span class="help-block">Хороший заголовок должен быть как минимум  60 символов. </span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Textarea -->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="textarea">Описание</label>
+                                            <div class="col-md-8">
+                                                <textarea class="form-control" id="Description" name="Description">Напишите что делает ваше предложение уникальным</textarea>
+                                            </div>
+                                        </div>
+
+                                        <!-- Prepended text-->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="Price">Цена</label>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">РУБ.</span>
+                                                    <input id="Price" name="Price" class="form-control" placeholder="0.00" required="" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox">
+                                                        Торг
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- photo -->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="textarea"> Изображения </label>
+                                            <div class="col-md-8">
+                                                <div class="mb10">
+                                                    <input id="input-upload-img1" name="input-upload-img1" type="file" class="file" data-preview-file-type="text">
+                                                </div>
+                                                <div class="mb10">
+                                                    <input id="input-upload-img2" name="input-upload-img2" type="file" class="file" data-preview-file-type="text">
+                                                </div>
+                                                <div class="mb10">
+                                                    <input id="input-upload-img3" name="input-upload-img3" type="file" class="file" data-preview-file-type="text">
+                                                </div>
+                                                <div class="mb10">
+                                                    <input id="input-upload-img4" name="input-upload-img4" type="file" class="file" data-preview-file-type="text">
+                                                </div>
+                                                <div class="mb10">
+                                                    <input id="input-upload-img5" name="input-upload-img5" type="file" class="file" data-preview-file-type="text">
+                                                </div>
+                                                <p class="help-block">Добавьте до 5 фотографий. Используйте реальные изображения, а не каталожные.</p>
+                                            </div>
+                                        </div>
+                                        <div class="content-subheading">
+                                            <i class="icon-user fa"></i> <strong>Информация о продавце</strong>
+                                        </div>
+                                        @if (!Request.IsAuthenticated)
+                                        {
+                                            <h3>
+                                                Вы не авторизованы @Html.ActionLink("Войдите", "Login", "Account") или
+                                                @Html.ActionLink("Зарегистрируйтесь", "Register", "Account"), если у вас нет логина для более удобного сервиса.
+                                            </h3>
+                                        }
+
+                                        <input style="visibility: hidden" id="SellerName" name="SellerId" id="SellerId" placeholder="Имя продавца" class="form-control input-md" required="" value="@Model.CurrentUser.UserId" type="text">
+
+                                        <!-- Text input-->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="textinput-name">Имя</label>
+                                            <div class="col-md-8">
+                                                <input id="SellerName" name="SellerName" placeholder="Имя продавца" class="form-control input-md" required="" value="@Model.CurrentUser.FirstName @Model.CurrentUser.LastName" type="text">
+                                            </div>
+                                        </div>
+
+                                        <!-- Appended checkbox -->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="seller-email">Почта</label>
+                                            <div class="col-md-8">
+                                                <input id="SellerEmail" name="SellerEmail" class="form-control" placeholder="Почта" value="@Model.CurrentUser.UserName" required="" type="text">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" value="">
+                                                        <small>Номер телефона скрывается, пока покупатель не откроет его кликом</small>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Text input-->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="seller-Number">Телефон</label>
+                                            <div class="col-md-8">
+                                                <input id="SellerPhone" name="SellerPhone" placeholder="Телефон" class="form-control input-md" required="" value="@Model.CurrentUser.Phone" type="text">
+                                            </div>
+                                        </div>
+
+                                        <!-- Select Basic -->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="seller-Location">Город</label>
+                                            <div class="col-md-8">
+                                                <select id="Location" name="Location" class="form-control">
+                                                    @foreach (var item in Model._locations)
+                                                    {
+                                                        <option value="@item.CityId">@item.Name</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Select Basic -->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="seller-area">Район</label>
+                                            <div class="col-md-8">
+                                                <input id="District" name="District" placeholder="район" class="form-control input-md" required="" type="text">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="well">
+                                            <h3>
+                                                <i class=" icon-certificate icon-color-1"></i>Сделайте ваше объявление премиум
+                                            </h3>
+                                            <p>
+                                                Премиум-объявления помогают продавать быстрее <a href="/Adv/help">Узнать больше</a>
+                                            </p>
+                                            <div class="form-group">
+                                                <table class="table table-hover checkboxtable">
+                                                    <tr>
+                                                        <td>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input onclick=" $('.pay').attr('style', 'visibility:hidden'); $('#publish').attr('style', 'visibility:visible'); " value="1" type="radio" name="IsFeatured" id="IsFeatured" value="option0" checked>
+                                                                    <strong>Обычное объявление </strong>
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <p>бесплатно</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input onclick=" $('.pay').attr('style', 'visibility:visible'); $('#publish').attr('style', 'visibility:hidden'); " value="2" type="radio" name="IsFeatured" id="IsFeatured" value="option1">
+                                                                    <strong>Срочное</strong>
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <p>10.00 р.</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input onclick=" $('.pay').attr('style', 'visibility:visible'); $('#publish').attr('style', 'visibility:hidden'); " value=" 3" type="radio" name="IsFeatured" id="IsFeatured" value="option2">
+                                                                    <strong>Вверху списка </strong>
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <p>20.00 р.</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input onclick=" $('.pay').attr('style', 'visibility:visible'); $('#publish').attr('style', 'visibility:hidden'); " value="4" type="radio" name="IsFeatured" id="IsFeatured" value="option3">
+                                                                    <strong>Продвигаемое </strong>
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <p>40.00 р.</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="pay" style="visibility: hidden;">
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <div class="col-md-8">
+                                                                    <select class="form-control" name="Method" id="PaymentMethod">
+                                                                        @*                                                                        <option value="2">Метод оплаты</option>*@
+                                                                        <option value="5">Paypal</option>
+                                                                    </select>
+
+
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="col-md-8">
+                                                                <a target="_blank" onclick=" $('#publish').attr('style', 'visibility:visible'); " class="fa fa-paypal btn btn-primary small" href="https://paypal.me/DZyryanov">Оплатить</a>
+
+                                                            </div>
+
+                                                        </td>
+
+                                                        @*<td><p> <strong>Payable Amount : $40.00</strong></p></td>*@
+                                                    </tr>
+                                                    <tr class="pay" style="visibility: hidden;"><td>(в наименовании платежа укажите название объявления. Неоплаченные объявления будут удаляться. Внимательно проверьте валюту платежа!)</td></tr>
+                                                </table>
+                                                <div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- terms -->
+                                        <div class="form-group">
+
+                                            <div class="col-md-8">
+                                                <label class="checkbox-inline" for="checkboxes-0">
+                                                    <input name="checkboxes" id="checkboxes-0" value="Remember above contact information." type="checkbox">
+                                                    Запомнить информацию.
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Button -->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label"></label>
+
+
+                                            <div class="col-md-8">
+                                                <input id="publish" class="btn btn-primary btn-lg" type="submit" value="Опубликовать" />
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.page-content -->
+
+     
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /.main-container -->
+    <!--/.footer-->
+</div>
+<!-- /.wrapper -->
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<!-- include jquery file upload plugin  -->
+
+<script>
+    // initialize with defaults
+    $("#input-upload-img1").fileinput();
+    $("#input-upload-img2").fileinput();
+    $("#input-upload-img3").fileinput();
+    $("#input-upload-img4").fileinput();
+    $("#input-upload-img5").fileinput();
+</script>
+
+

@@ -1,0 +1,97 @@
+﻿@model DAL.AccountModel
+<div class="main-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3 page-sidebar">
+                <aside>
+                    <div class="inner-box">
+                        <div class="user-panel-sidebar">
+                            <div class="collapse-box">
+                                <h5 class="collapse-title no-border">ADV - главная<a href="#MyClassified" data-toggle="collapse" class="pull-right"><i class="fa fa-angle-down"></i></a></h5>
+                                <div class="panel-collapse collapse in" id="MyClassified">
+                                    <ul class="acc-list">
+                                        <li><a class="active" href="/Home/PrivateOffice"><i class="icon-folder-close"></i>Личный кабинет </a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="collapse-box">
+                                <h5 class="collapse-title">блоги<a href="#MyBlogs" data-toggle="collapse" class="pull-right"><i class="fa fa-angle-down"></i></a></h5>
+                                <div class="panel-collapse collapse in" id="MyBlogs">
+                                    <ul class="acc-list">
+                                        <li><a href="/Blog/MyBlog/@WebSecurity.CurrentUserId"><i class="icon-folder-close"></i> Мои блоги </a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="collapse-box">
+                                <h5 class="collapse-title">Мои отзывы<a href="#MyReview" data-toggle="collapse" class="pull-right"><i class="fa fa-angle-down"></i></a></h5>
+                                <div class="panel-collapse collapse in" id="MyReview">
+                                    <ul class="acc-list">
+                                        <li><a href="/Review/MyReviews/@WebSecurity.CurrentUserId"><i class="icon-folder-close"></i> Мои отзывы </a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- /.collapse-box -->
+                            <div class="collapse-box">
+                                <h5 class="collapse-title">Мои объявления<a href="#MyAds" data-toggle="collapse" class="pull-right"><i class="fa fa-angle-down"></i></a></h5>
+                                <div class="panel-collapse collapse in" id="MyAds">
+                                    <ul class="acc-list">
+                                        <li><a href="/Adv/MyAdv/@WebSecurity.CurrentUserId"><i class="icon-th-thumb"></i> Мои объявления </a></li>
+                                        <li><a href="/Adv/Favorite/@WebSecurity.CurrentUserId"><i class="icon-heart"></i> Избранные объявления </a></li>
+                                        <li><a href="/Adv/Saved/@WebSecurity.CurrentUserId"><i class="icon-star-circled"></i> Сохраненный поиск </a></li>
+                                        <li><a href="/Adv/Archive/@WebSecurity.CurrentUserId"><i class=" icon-folder-close"></i> Архивные объявления </a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- /.collapse-box -->
+
+                            <div class="collapse-box">
+                                <h5 class="collapse-title">Закрытие аккаунта<a href="#TerminateAccount" data-toggle="collapse" class="pull-right"><i class="fa fa-angle-down"></i></a></h5>
+                                <div class="panel-collapse collapse in" id="TerminateAccount">
+                                    <ul class="acc-list">
+                                        <li><a href="/Home/TerminateAccount/"><i class="icon-cancel-circled "></i> Закрыть </a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- /.collapse-box -->
+                        </div>
+                    </div>
+                    <!-- /.inner-box -->
+
+                </aside>
+            </div>
+            <!--/.page-sidebar-->
+
+            <form action="/Home/TerminateAccountSuccess/" class="form-horizontal" method="post" role="form" enctype="multipart/form-data">
+                <div class="col-sm-9 page-content">
+
+                    <div class="inner-box">
+                        <h2 class="title-2">
+                            <i class="icon-cancel-circled "></i> Закрытие аккаунта
+                        </h2>
+                        <p>вы уверены, что хотите закрыть аккаунт?</p>
+
+                        <div>
+                            <label class="radio-inline">
+                                <input type="radio" name="inlineRadioOptions" id="inlineRadioOptions" value="0"> Да
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="inlineRadioOptions" id="inlineRadioOptions" value="1"> Нет
+                            </label>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-primary">Подтвердить</button>
+
+                    </div>
+                </div><!--/.inner-box-->
+                <!--/.row-box End-->
+                <!--/.page-content-->
+            </form>
+        </div>
+
+        <!--/.row-->
+    </div>
+    <!--/.container-->
+</div>
+<!-- /.main-container -->

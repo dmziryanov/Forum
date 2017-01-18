@@ -1,0 +1,88 @@
+﻿@using System.Web.Optimization;
+@using System.Web.Mvc.Html;
+@model BootStrap.Models.LogOnModel
+
+@{
+    Layout = null;
+}
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Charts+ | Login</title>
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Fonts/font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <link href="~/Content/animate.css" rel="stylesheet">
+    <link href="~/Content/style.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    @Styles.Render("~/Content/Login/css")
+    <div class="middle-box text-center loginscreen  animated fadeInDown">
+        <div>
+            <div>
+
+                <h1 class="logo-name"></h1>
+                <img src="/Images/ford-logo.png">
+
+            </div>
+            <h3>Добро пожаловать в <br>автомобильный клуб</h3>
+            <p>
+                Форумы и не только для автолюбителей и специалистов.
+            </p>
+            <p>Пожалуйста войдите, чтобы создавать темы и отвечать на вопросы.</p>
+            @using (Html.BeginForm("LogOn", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                
+                <hr />
+                @Html.ValidationSummary(true)
+                <div class="form-group">
+                    
+                    
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @type = "email", @placeholder = "почта" })
+                        @Html.ValidationMessageFor(m => m.Email)
+                    
+                </div>
+                <div class="form-group">
+                    
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @type="password", @placeholder = "пароль" })
+                        @Html.ValidationMessageFor(m => m.Password)
+                    
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-8">
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            @Html.LabelFor(m => m.RememberMe)
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-8">
+                        <input type="submit" value="Войти" class="btn btn-primary block full-width m-b"/>
+                    </div>
+                </div>
+                <a href="#"><small>Забыли пароль?</small></a>
+                <p class="text-muted text-center"><small>Ранее здесь не бывали?</small></p>
+                @Html.ActionLink("Зарегистрируйтесь", "Register", new {@class="btn btn-sm btn-white btn-block"} )
+                
+            }
+        </div>
+    </div>
+</body>
+</html>
+
+
+@Scripts.Render("~/bundles/jqueryval")
+

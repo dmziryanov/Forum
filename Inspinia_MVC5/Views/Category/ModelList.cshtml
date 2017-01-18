@@ -1,0 +1,26 @@
+﻿@model DAL.KeyNameModel[]
+
+@{
+    Layout = null;
+}
+
+@{
+                                var CatRowCount = 3;
+}
+
+@for (var i = 0; i < Model.Count()/CatRowCount + 1; i++)
+{
+
+    for (var j = i*CatRowCount; j < i*CatRowCount + CatRowCount; j++)
+    {
+        if (Model.Count() > j)
+        {
+            var item = Model.ElementAt(j);
+            <div class="col-md-4">
+                <ul class="list-link list-unstyled">
+                    <li> <a href="/Category/Search?Keywords=@item.Name&category=49"> @item.Name<span class="count"></span> </a></li>
+                </ul>
+            </div>
+        }
+    }
+}

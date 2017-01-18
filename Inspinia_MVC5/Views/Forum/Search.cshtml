@@ -1,0 +1,168 @@
+﻿@using DAL
+@model BootStrap.Models.BlogCategoryModel
+
+@{
+    ViewBag.Title = "title";
+}
+
+
+
+<!-- /.header -->
+
+<div class="inner-box-ads" style="padding: 15px">
+   
+</div>
+
+<div class="intro-inner">
+    <div class="about-intro" style="background-color: black">
+        <div class="dtable hw100">
+            <div class="dtable-cell hw100">
+                <div class="container text-center animated fadeInDown">
+                    <h1 class="intro-title">@ViewBag.Message</h1>
+                    <h2>Темы свзяанные с @Model.KeyWords</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/.about-intro -->
+
+</div>
+<!-- /.intro-inner -->
+<div class="inner-box-ads" style="padding: 15px">
+   
+</div>
+
+<div class="main-container inner-page">
+
+    <div class="container">
+        <div class="section-content">
+            <div class="row ">
+
+                <div class="col-sm-8 blogLeft">
+
+                    <div class="blog-post-wrapper">
+
+
+                        @foreach (var item in @Model.Posts)
+                        {
+                            if ((@Model.Posts.ToList().IndexOf(item) + 2) % 3 == 0)
+                            {
+                                <text>
+                                   
+                                </text>
+                            }
+
+                            <article class="blog-post-item">
+                                <div class="inner-box">
+                                    <!--blog image-->
+                                    <div class="blog-post-img">
+                                        <a href="/Theme/ThemePost/@item.Id">
+                                            <figure>
+                                                <img class="img-responsive" alt="blog-post image" src="/Photo/Index/@item.MainPhotoId">
+                                            </figure>
+                                        </a>
+                                    </div>
+
+                                    <!--blog content-->
+
+                                    <div class="blog-post-content-desc">
+                                        <span class="info-row blog-post-meta">
+                                            <span class="date"><i class=" icon-clock"> </i> @item.LastEditDate </span>  -
+                                            <span class="author"> <i class="fa fa-user"></i>  <a rel="author" title="Themes @item.UserName" href="#">@item.UserName</a> </span>  -
+                                            <span class="item-location"><i class="fa fa-comments"></i> Comments <a href="#">@item.CommentsCount</a> </span>
+                                        </span>
+
+
+                                        <div class="blog-post-content">
+                                            <h2>
+                                                <a href="/Theme/ThemePost/@item.Id">@item.Topic</a>
+
+                                            </h2>
+                                            <p>
+                                                @if (!string.IsNullOrEmpty(@item.Body))
+                                                {
+                                                    @Html.Raw(@item.Body.Substring(0, @item.Body.Length < 151 ? @item.Body.Length - 1 : 150))
+                                                }
+                                            </p>
+                                            <div class="row">
+                                                <div class="col-md-12 clearfix blog-post-bottom">
+                                                    <a class="btn btn-primary  pull-left" href="/Theme/ThemePost/@item.Id">Read</a>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        }
+                    </div> <!--/.blog-post-wrapper-->
+                </div><!--blogLeft-->
+
+
+                <div class="col-sm-4 blogRight page-sidebar">
+                    <aside>
+                        <div class="inner-box">
+                            <div class="categories-list  list-filter">
+                                <h5 class="list-title uppercase"><strong><a href="#">Category</a></strong></h5>
+                                <ul class=" list-unstyled list-border ">
+                                    @foreach (var item in Model.categories)
+                                    {
+                                        <li><a href="/Theme/Category/@item.ID"><span class="title">@item.Name</span><span class="count"></span></a> </li>
+                                    }
+                                </ul>
+                            </div>
+                            <!--/.categories-list-->
+                            <div class="categories-list  list-filter">
+                                <h5 class="list-title uppercase">
+                                    <strong>
+                                        <a href="#">
+                                            Recent popular
+                                        </a>
+                                    </strong>
+                                </h5>
+
+
+
+                                <div class="blog-popular-content">
+
+
+                                    @foreach (var item in Model.Recent)
+                                    {
+                                        <div class="item-list">
+                                            <div class="col-sm-4 col-xs-4 no-padding photobox">
+                                                <div class="add-image">
+                                                    <a href="/Blog/BlogPost/@item.Id"><img class="no-margin" src="/Photo/Index/@item.MainPhotoId" alt="img"></a>
+                                                </div>
+                                            </div>
+                                            <!--/.photobox-->
+                                            <div class="col-sm-8 col-xs-8 add-desc-box">
+                                                <div class="add-details">
+                                                    <h5 class="add-title"><a href="/Forum/BlogPost/@item.Id">@item.Topic</a></h5>
+                                                    <span class="info-row"><span class="date"><i class=" icon-clock"> </i> @item.LastEditDate </span> </span>
+                                                </div>
+                                            </div>
+                                            <!--/.add-desc-box-->
+                                        </div>
+                                    }
+
+
+                                </div>
+                                <div style="clear: both"></div>
+
+                                <!--/.categories-list-->
+                            </div>
+
+                        </div>
+                    </aside>
+                </div>
+                <!--page-sidebar-->
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="inner-box-ads" style="padding: 15px">
+   
+</div>

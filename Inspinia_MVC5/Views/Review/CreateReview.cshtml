@@ -1,0 +1,131 @@
+﻿@model DAL.Review
+
+<div id="wrapper">
+    <div class="main-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 page-content">
+                    <div class="inner-box category-content">
+                        <h2 class="title-2 uppercase"><strong> <i class="icon-docs"></i>Добавление отзыва</strong> </h2>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @using (Html.BeginForm("CreateReview", "Review", FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data" }))
+                                {
+                                    @Html.ValidationSummary(true)
+
+                                    <fieldset>
+                                        <!-- Select Basic -->
+
+                                        <!-- Multiple Radios (inline) -->
+                                   <!-- Text input-->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="Adtitle">О ком?</label>
+                                            <div class="col-md-8">
+                                                @Html.TextBoxFor(x=>x.AboutName, new  { @class="form-control input-md" })
+                                            </div>
+                                        </div>
+
+                                        <!-- Textarea -->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="textarea">Ваш отзыв</label>
+                                            <div class="col-md-8">
+                                                <textarea class="form-control" id="Text" name="Text">Текст</textarea>
+                                            </div>
+                                        </div>
+
+                                        <!-- Prepended text-->
+                                
+                                        <div class="content-subheading">
+                                            <i class="icon-user fa"></i> <strong>О вас</strong>
+                                        </div>
+
+                                        <!-- Text input-->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="textinput-name">Имя</label>
+                                            <div class="col-md-8">
+                                                <input id="PersonName" name="PersonName" placeholder="Ваше имя" class="form-control input-md" required="" type="text">
+                                            </div>
+                                        </div>
+
+                                        <!-- Appended checkbox -->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="seller-email">Почта</label>
+                                            <div class="col-md-8">
+                                                <input id="PersonMail" name="PersonMail" class="form-control" placeholder="Почта" required="" type="text">
+                                            </div>
+                                        </div>
+
+                                        <!-- Select Basic -->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="seller-Location">Город</label>
+                                            <div class="col-md-8">
+                                                <select id="Location" name="Location" class="form-control">
+                                                    @foreach (var item in Model._locations)
+                                                    {
+                                                        <option value="@item.CityId">@item.Name</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Select Basic -->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="seller-area">Район</label>
+                                            <div class="col-md-8">
+                                                <input id="District" name="District" placeholder="район" class="form-control input-md" required="" type="text">
+                                            </div>
+                                        </div>
+
+                                        <!-- Button -->
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label"></label>
+                                            <div class="col-md-8">
+                                                <input class="btn btn-primary btn-lg" type="submit" value="Опубликовать" />
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.page-content -->
+
+                <div class="col-md-3 reg-sidebar">
+                    <div class="reg-sidebar-inner text-center">
+                        <div class="panel sidebar-panel">
+                            <div class="panel-heading uppercase"><small><strong>Правила отзыва</strong></small>
+                            </div>
+                            <div class="panel-content">
+                                <div class="panel-body text-left">
+                                    <ul class="list-check">
+                                        <li> Старайтесь сделать ваш отзыв объективным</li>
+                                        <li> Укажите подробности ситуации</li>
+                                        <li> Не допускайте грубых слов</li>
+                                    </ul>
+                                    @Html.ActionLink("Все отзывы...", "All", "Review")
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel sidebar-panel">
+                            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- skyscrapper -->
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:300px;height:600px"
+                                 data-ad-client="ca-pub-9707096941681181"
+                                 data-ad-slot="6261579150"></ins>
+                            <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+
+                        </div>
+                </div><!--/.reg-sidebar-->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /.main-container -->
+    <!--/.footer-->
+</div>

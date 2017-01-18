@@ -1,0 +1,459 @@
+﻿<script src="../../assets/js/owl.carousel.min.js"></script>
+<script src="../../assets/js/adsdetails.js"></script>
+
+<script>
+    Search = function () {
+        window.location = '/Forum/Search?keywords=' + $("#ads").val() + '&location=' + $("[name='country']").val();
+    }
+
+
+    gotoIndex = function () {
+        window.location = '/Forum/Index';
+    }
+
+
+    $(document).ready(function () {
+  
+      
+
+        
+        var isOverGoogleAd = false;
+
+        var v = function () { // When a user mouses over a Google AdSense iFrame, we
+            // want to track that activity. This way, when the
+            // current window blurs, we can guesstimate as to
+            // whether or not the window-blur was due to the user
+            // clicking the Google ad.
+            
+            $("iframe")
+                .mouseover(
+                    function () {
+                        isOverGoogleAd = true;
+                    }
+                )
+                .mouseout(
+                    function () {
+                        isOverGoogleAd = false;
+                    }
+                );
+        };
+
+	v();
+
+        /*  $("#menu").load("/Category/ReserveGoogleAdvView/");
+
+          $("#bottomAds").load("/Category/BottomGoogleAdvView/", function () {
+              $("#rightAds").load("/Category/BottomGoogleAdvView/", function () {
+                  v();
+              });
+          });*/
+
+
+
+
+
+        
+
+
+
+        // Now that we are tracking the mouse movements over
+        // the Google AdSense, let's track the window's blur
+        // event to see if we can guesstimate the AdSesnse
+        // usage.
+        $(window).blur(
+            function () {
+                // Check to see if the user was over a Google
+                // AdSense ad when the window was blurred.
+                if (isOverGoogleAd) {
+                    // Because the user was mousing over a
+                    // Google AdSense iFrame when the window
+                    // was blurred, it is reasonable to
+                    // estimate that the blurring is due to
+                    // the user clicking one of the ads.
+                    $.ajax({
+                        url: '/Adv/SaveClickIP/'
+                    });
+                }
+            }
+        )
+        // Focus the window by default.
+        .focus()
+        ;
+    });
+
+
+</script>
+
+<style>
+
+
+    .badge-danger {
+        display: inline-block;
+        min-width: 10px;
+        padding: 3px 7px;
+        font-size: 12px;
+        font-weight: bold;
+        line-height: 1;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        background-color: #d43f3a;
+        border-radius: 10px;
+    }
+</style>
+
+@model DAL.AdvModel
+
+
+@* <div class="intro">
+        @HttpContext.Current.Request.UserHostAddress
+           <div class="dtable hw100">
+                <div class="dtable-cell hw100">
+                    <div class="container text-center">
+                        <h1 class="intro-title animated fadeInDown">Частные и деловые объявления</h1>
+                        <p class="sub animateme fittext3 animated fadeIn">поиск авто, жилья, работы</p>
+                        <div class="row search-row animated fadeInUp">
+                            <div class="col-lg-4 col-sm-4 search-col relative locationicon">
+                                $1$<i class="icon-location-2 icon-append"></i>#1#
+                                <input type="text" name="country" id="autocomplete-ajax" class="form-control locinput input-rel searchtag-input white-text" placeholder="Город..." value="">
+                            </div>
+                            <div class="col-lg-4 col-sm-4 search-col relative">
+                                $1$<i class="icon-docs icon-append"></i>#1#
+                                <input type="text" name="ads" id="ads" class="form-control white-text" placeholder="Название или описание товара/услуги ..." value="">
+                            </div>
+                            <div class="col-lg-4 col-sm-4 search-col">
+                                <button onclick="Search();" class="btn btn-primary btn-search btn-block"><i class="icon-search"></i><strong>Найти</strong></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>*@
+<!-- /.intro -->
+@*Реклама ГУГЛ*@
+
+
+<div class="main-container">
+
+
+    <div class="row" >
+
+
+
+    <div class="container">
+
+
+
+
+    @*<div id="menu" class="card hoverable" style="text-align:center;width:100%;margin-top:45px">
+               </div>*@
+    <div class="row search-row animated fadeInUp">
+        <div class="col-lg-4 col-sm-offset-2 col-sm-4 search-col relative ">
+            <input id="ads" type="text" class="form-control" placeholder="Введите текст для поиска">
+        </div>
+
+
+        <div class="col-lg-4 col-sm-4 search-col">
+            <button onclick="Search();" class="btn btn-primary btn-search btn-block"><i class="icon-search-1"></i><strong>Найти</strong></button>
+        </div>
+
+
+    </div>
+
+    <div class="col-lg-12 card hoverable">
+        <div class="row row-featured row-featured-category">
+            <div class="col-lg-12 box-title no-border">
+                <div class="inner">
+                    <h2><span>перейти к темам</span>
+                        FORD<a href="/Category/Search" class="sell-your-item">Показать еще<i class="icon-th-list"></i> </a>
+                    </h2>
+                </div>
+            </div>
+
+
+            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4 f-category">
+                <a href="/Category/Search?category=8"><img src="/images/category/Mustang.jpg" class="img-responsive" alt="img"> <h6>Mustang</h6> </a>
+            </div>
+            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4 f-category">
+                <a href="/Category/Search?category=49"><img src="/images/category/fiesta.jpg" class="img-responsive" alt="img"> <h6>Fiesta</h6> </a>
+            </div>
+
+            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4 f-category">
+                <a href="/Category/Search?category=38"><img src="/images/category/focus.jpg" class="img-responsive" alt="img"> <h6>Focus</h6> </a>
+            </div>
+
+            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4 f-category">
+                <a href="/Category/Search?category=1045"><img src="/images/category/mondeo.jpg" class="img-responsive" alt="img"> <h6>Mondeo</h6> </a>
+            </div>
+            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4 f-category">
+                <a href="/Category/Search?category=8"><img src="/images/category/c-max.jpg" class="img-responsive" alt="img"> <h6>C-Max</h6> </a>
+            </div>
+            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4 f-category">
+                <a href="/Category/Search?category=8"><img src="/images/category/fusion.jpg" class="img-responsive" alt="img"> <h6>Fusion</h6> </a>
+            </div>
+            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4 f-category">
+                <a href="/Category/Search?category=1046"><img src="/images/category/explorer.jpg" class="img-responsive" alt="img"> <h6>Explorer</h6> </a>
+            </div>
+
+            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4 f-category">
+                <a href="/Category/Search?category=1044"><img src="/images/category/kuga.jpg" class="img-responsive" alt="img"> <h6>Kuga</h6> </a>
+            </div>
+            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4 f-category">
+                <a href="/Category/Search?category=8"><img src="/images/category/ecosport.jpg" class="img-responsive" alt="img"> <h6>EcoSport</h6> </a>
+            </div>
+            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4 f-category">
+                <a href="/Category/Search?category=8"><img src="/images/category/Edge.jpg" class="img-responsive" alt="img"> <h6>Edge</h6> </a>
+            </div>
+
+            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4 f-category">
+                <a href="/Category/Search?category=8"><img src="/images/category/F-150.jpg" class="img-responsive" alt="img"> <h6>F-150</h6> </a>
+            </div>
+
+            <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4 f-category">
+                <a href="/Category/Search?category=8"><img src="/images/category/Ranger.jpg" class="img-responsive" alt="img"> <h6>Ranger</h6> </a>
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+
+    <div class="row search-row animated fadeInUp">
+        <button onclick="gotoIndex();" class="btn btn-u-dark-blue btn-block"><i class="icon-bg-dark-1"></i>Перейти ко всем разделам форума по категории</button>
+    </div>
+
+
+    @*    <section class="section extra-margins">
+
+                 <!--Section heading-->
+                 <h1 class="section-heading">Section title</h1>
+                 <!--Section sescription-->
+                 <p class="section-description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+                 <!--First row-->
+                 <div class="row">
+
+                     <!--First column-->
+                     <div class="col-md-5 mb-r">
+                         <!--Featured image-->
+                         <div class="view overlay hm-white-slight">
+                             <img src="http://mdbootstrap.com/img/Photos/Horizontal/People/6-col/img%20(80).jpg" alt="Sample image for first version of blog listing">
+                             <a>
+                                 <div class="mask waves-effect waves-light"></div>
+                             </a>
+                         </div>
+                     </div>
+                     <!--/First column-->
+                     <!--Second column-->
+                     <div class="col-md-7 mb-r">
+                         <!--Excerpt-->
+                         <a href="" class="amber-text"><h5><i class="fa fa-diamond"></i>Fashion</h5></a>
+                         <h4>Classic outfit - white off-shoulder top and denim.</h4>
+                         <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus et aut officiis debitis aut rerum.</p>
+                         <p>by <a><strong>Carine Fox</strong></a>, 19/08/2016</p>
+                         <a class="btn btn-cyan waves-effect waves-light">Read more</a>
+                     </div>
+                     <!--/Second column-->
+
+                 </div>
+                 <!--/First row-->
+
+                 <hr>
+
+                 <!--Second row-->
+                 <div class="row">
+
+                     <!--First column-->
+                     <div class="col-md-7 mb-r">
+                         <!--Excerpt-->
+                         <a href="" class="indigo-text"><h5><i class="fa fa-coffee"></i>Lifestyle</h5></a>
+                         <h4>Berlin at the weekend - the best donuts in the city.</h4>
+                         <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident et dolorum fuga.</p>
+                         <p>by <a><strong>Carine Fox</strong></a>, 14/08/2016</p>
+                         <a class="btn btn-cyan waves-effect waves-light">Read more</a>
+                     </div>
+                     <!--/First column-->
+                     <!--Second column-->
+                     <div class="col-md-5 mb-r">
+                         <!--Featured image-->
+                         <div class="view overlay hm-white-slight">
+                             <img src="http://mdbootstrap.com/img/Photos/Horizontal/People/6-col/img%20(91).jpg" alt="Second image in the first version of blog listing">
+                             <a>
+                                 <div class="mask waves-effect waves-light"></div>
+                             </a>
+                         </div>
+                     </div>
+                     <!--/Second column-->
+
+                 </div>
+                 <!--/Second row-->
+
+                 <hr>
+
+                 <!--Third row-->
+                 <div class="row">
+
+                     <!--First column-->
+                     <div class="col-md-5 mb-r">
+                         <!--Featured image-->
+                         <div class="view overlay hm-white-slight">
+                             <img src="http://mdbootstrap.com/img/Photos/Horizontal/City/6-col/img%20(32).jpg" alt="Thrid image in the blog listing.">
+                             <a>
+                                 <div class="mask waves-effect waves-light"></div>
+                             </a>
+                         </div>
+                     </div>
+                     <!--/First column-->
+                     <!--Second column-->
+                     <div class="col-md-7 mb-r">
+                         <!--Excerpt-->
+                         <a href="" class="pink-text"><h5><i class="fa fa-suitcase"></i>Travels</h5></a>
+                         <h4>Guide to the beautiful Cinque Terre.</h4>
+                         <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro qui dolorem ipsum quia sit amet, consectetur.</p>
+                         <p>by <a><strong>Carine Fox</strong></a>, 11/08/2016</p>
+                         <a class="btn btn-cyan waves-effect waves-light">Read more</a>
+                     </div>
+                     <!--/Second column-->
+
+                 </div>
+                 <!--/Third row-->
+
+             </section>*@
+
+    @*    <div id="inter" class="card hoverable" style="text-align:center;width:100%;">
+            </div>*@
+
+    @*    <div class="">
+                
+                    <h2 class="doc-title">ПРОДВИГАЕМЫЕ ОБЪЯВЛЕНИЯ<a target="_blank" href="/Home/FAQ" class="btn btn-danger waves-effect waves-light">(Как сюда попасть?)</a>
+                    
+                    <a id="nextItem" class="link pull-right carousel-nav btn-floating btn-small waves-effect waves-light"> <i class="fa fa-chevron-right"></i></a>
+                    <a id="prevItem" class="link pull-right carousel-nav btn-floating btn-small waves-effect waves-light"> <i class="fa fa-chevron-left"></i> </a>
+                </h2>
+                <div class="row">
+                    
+                    <div class="col-lg-12">
+                        <div class="no-margin item-carousel owl-carousel owl-theme">
+                            
+                            @#1#foreach (var item in Model._featuredList)
+                            {
+
+                                <div class="card hoverable" style="margin: 5px; height: 400px;">
+                                    <a href="@item.adsurl">
+                                        <img class="img-fluid" src="@item.firstphoto" alt="Card image cap">
+                                        <div class="card-block" >
+                                            <h4 class="text-black">@item.Name</h4>
+                                            <p class="text-black">@item.LocationName</p>
+                                            <a class="btn btn-primary-dark waves-effect waves-light">@item.PriceLabel</a>
+                                        </div>
+                                    </a>
+                                </div>
+                            }#1#
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+
+
+
+    @*            <div class="col-sm-9 page-content col-thin-right">
+
+
+
+
+
+    <div class="category-content card hoverable">
+
+        <h2 class="title-2">Категории объявлений</h2>
+        <div class="row">
+            @{
+            var CatRowCount = 5;
+            }
+
+            @for (var i = 0; i < Model._categories.Count() / CatRowCount + 1; i++)
+            {
+            <div class="col-md-4 col-sm-4 @if (i == CatRowCount - 1)
+                                      {
+                                          @Model.LastColumn
+                                      }">
+
+
+                @for (var j = i * CatRowCount; j < i * CatRowCount + CatRowCount; j++)
+                {
+                if (Model._categories.Count() > j)
+                {
+                var item = Model._categories.ElementAt(j);
+                <div class="cat-list hoverable">
+                    <h3 class="cat-title">
+                        <a href="/Category/Search?parentcategory=@item.ID"><i class="fa @item.IconName ln-shadow"></i>@item.Name<span class="count">@item.Count</span> </a>
+                        <span data-target=".cat-id-1" data-toggle="collapse" class="btn-cat-collapsed collapsed"><span class=" icon-down-open-big"></span></span>
+                    </h3>
+                    <ul class="cat-collapse collapse in cat-id-1 ">
+
+                    </ul>
+                </div>
+                }
+                }
+
+            </div>
+            }
+        </div>
+    </div>
+
+
+
+
+                <!--Rotating card-->
+                <!--/.Rotating card-->
+
+            </div>*@
+
+
+    @*      <div class="col-sm-3 page-sidebar col-thin-left">
+                <aside>
+
+
+    <div class="card hoverable">
+                    <h2 class="title-2">Отзывы и блоги</h2>
+                    <div class="inner-box-content">
+                        <ul class="cat-list arrow">
+                            <li>Отзыв о <a href="/Review/All">@Model.TopReview.AboutName</a></li>
+                            <li>Блог: <a href="/Blog/BlogDetails/@Model.TopBlog.Id">@Model.TopBlog.Name</a></li>
+                        </ul>
+
+                    </div>
+                </div>
+   
+
+                  
+
+                  @*  <div class="card hoverable">
+                        <h2 class="title-2">Популярные</h2>
+                        <div class="inner-box-content">
+                            <ul class="cat-list arrow">
+                                @foreach (var subitem in Model.Popular.OrderByDescending(x => x.Count).GetAllUsers())
+                                {
+                                <li> <a href="/Category/Search?category=@subitem.ID">@subitem.Name <span class="badge-danger pull-right">@subitem.Count</span></a></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+
+               </aside>
+            </div> *@
+
+
+    @*<div class="card hoverable" style="text-align:center;width:100%;">
+    
+
+
+    </div>*@
+
+
+    </div>
+    </div>
+    <!-- /.page-info -->
+</div>
